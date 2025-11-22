@@ -21,10 +21,11 @@ def calculation(a: int, b:int, sign:str):
         return a / b
     elif sign == '*':
         return a * b
+
     @field_validator('sign')
     def validator_operation(cls, v):
-        if v not in ['+', '-', '/', '*']:
-            raise ValueError('неизвестная операция')
+        if v not in ['+', '-', '*', '/']:
+            raise ValueError('Недопустимая операция')
         return v
 
 @app.get("/", response_class=HTMLResponse)
