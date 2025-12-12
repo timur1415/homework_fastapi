@@ -8,6 +8,8 @@
 <body>
     <h1>Результат</h1>
     <a href="/">Назад</a>
-    <p>{{ c }}</p>
+    {% if calc_output.c %}
+        <p>{{calc_output.a}}{{calc_output.sign}}{{calc_output.b}}={{ calc_output.c }}</p>
+    {% endif %}
 </body>
 </html> 
