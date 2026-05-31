@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Результат</title>
+    <title>Welcome</title>
 
     <style>
         body {
             font-family: Arial, sans-serif;
             background: #e6fffb;
-            margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -21,8 +20,8 @@
             padding: 30px;
             border-radius: 16px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            border: 2px solid #81d8d0;
             text-align: center;
+            border: 2px solid #81d8d0;
             width: 320px;
         }
 
@@ -30,25 +29,26 @@
             color: #0f4c5c;
         }
 
-        a {
+        .badge {
             display: inline-block;
-            margin-top: 15px;
-            text-decoration: none;
+            padding: 6px 12px;
             background: #81d8d0;
             color: white;
-            padding: 8px 14px;
             border-radius: 20px;
-        }
-
-        a:hover {
-            background: #4fbfb4;
-        }
-
-        .result {
-            margin-top: 15px;
-            font-size: 18px;
-            color: #333;
+            margin-top: 10px;
             font-weight: bold;
+        }
+
+        .reward {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .gift {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #555;
         }
     </style>
 </head>
@@ -56,17 +56,18 @@
 <body>
 
     <div class="card">
-        <h1>Результат 💎</h1>
+        <h1>Добро пожаловать 💎</h1>
 
-        <a href="/">Назад</a>
+        <div class="badge">Доступ разрешён</div>
 
-        {% if calc_output.c is not none %}
-            <div class="result">
-                {{ calc_output.a }} {{ calc_output.sign }} {{ calc_output.b }} = {{ calc_output.c }}
-            </div>
-        {% else %}
-            <p>Нет результата 😢</p>
-        {% endif %}
+        <p class="reward">
+            Пользователь: <b>{{ email }}</b>
+        </p>
+
+        <div class="gift">
+            🎁 Ты получил бонус: <br>
+            <b>секретный режим разблокирован</b>
+        </div>
     </div>
 
 </body>

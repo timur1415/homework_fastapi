@@ -1,30 +1,112 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Лучший сайт на свете</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 40px;
+            background: #e6fffb; /* светлый Tiffany фон */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #0f4c5c;
+            margin-top: 30px;
+            letter-spacing: 1px;
+        }
+
+        form {
+            background: #ffffff;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 14px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+            width: 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            border: 2px solid #81d8d0; /* Tiffany border */
+        }
+
+        input, select {
+            padding: 10px;
+            border: 1px solid #b2f1ea;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            background: #f9fffe;
+        }
+
+        input:focus, select:focus {
+            border-color: #1abc9c;
+            box-shadow: 0 0 6px rgba(26,188,156,0.3);
+        }
+
+        input[type="submit"] {
+            background: #81d8d0; /* Tiffany blue */
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.25s;
+        }
+
+        input[type="submit"]:hover {
+            background: #4fbfb4;
+            transform: translateY(-2px);
+        }
+
+        h1::after {
+            content: "";
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: #81d8d0;
+            margin: 8px auto;
+            border-radius: 2px;
+        }
+    </style>
 </head>
+
 <body>
+
     <h1>Главная</h1>
+
     <form action="/calc">
-        <input type="text" name="a">
-        <!-- <select name="sign">
+        <input type="text" name="a" placeholder="Число A">
+        <select name="sign">
             <option value="+">+</option>
             <option value="-">-</option>
+            <option value="*">*</option>
             <option value="/">/</option>
-            <option value="*">*</option> -->
-        <!-- </select> -->
-        <input type="text" name="sign">
-        <input type="text" name="b">
+        </select>
+        <input type="text" name="b" placeholder="Число B">
         <input type="submit" value="=">
     </form>
-    <h1>фио</h1>
+
+    <h1>ФИО</h1>
+
     <form action="/name">
-        <input type="text" name="first_name">
-        <input type="text" name="last_name">
-        <input type="text" name="surname">
+        <input type="text" name="first_name" placeholder="Имя">
+        <input type="text" name="last_name" placeholder="Фамилия">
+        <input type="text" name="surname" placeholder="Отчество">
         <input type="submit" value="дальше">
-    </form>   
+    </form>
+
+    <h1>Логин</h1>
+
+    <form action="/loggin" method="post">
+        <input type="text" name="email" placeholder="Email">
+        <input type="text" name="password" placeholder="Password">
+        <input type="submit" value="войти">
+    </form>
+
 </body>
 </html>

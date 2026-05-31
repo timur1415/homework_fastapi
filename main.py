@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, field_validator, ValidationError
@@ -88,3 +88,14 @@ async def name(request: Request, first_name: str, last_name: str, surname: str):
             "surname": surname,
         },
     )
+
+
+@app.post("/loggin")
+async def loggin(request: Request, email: str = Form(...), password: int = Form(...)):
+    if password != 123456:
+        return {"error": "не ыерный пароль"}
+    else:
+        return templates.TemplateResponse(
+            "loggin.html",
+            {"request": request, "email": email, "password": password},
+        )
