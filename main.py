@@ -1,39 +1,18 @@
 from fastapi import FastAPI, Request, Form
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
-from pydantic import BaseModel, field_validator, ValidationError
-from typing import Union
+from fastapi.staticfiles import StaticFiles
+
 
 templates = Jinja2Templates(directory="templates")
 
-
-class Calc(BaseModel):
-    a: Union[int, float]
-    b: Union[int, float]
-    sign: str
-
-    @field_validator("sign")
-    def validator_operation(cls, v):
-        if v not in ["+", "-", "*", "/"]:
-            raise ValueError("Недопустимая операция")
-        return v
-
-
-class Name(BaseModel):
-    first_name: str
-    last_name: str
-    surname: str
-
-
-class CalcOutput(BaseModel):
-    a: Union[int, float] = 0
-    b: Union[int, float] = 0
-    c: Union[int, float] = 0
-    sign: str = None
-    error: Union[str, None] = None
+fake_user = {}
+        
 
 
 app = FastAPI()
+
+app.mount('/static', StaticFiles(directory='static'))
 
 
 def calculation(a: int, b: int, sign: str):
@@ -52,50 +31,25 @@ async def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 
-@app.get("/calc", response_class=HTMLResponse)
-async def plus(request: Request, a: str, b: str, sign: str):
-    try:
-        calc_input = Calc(a=a, b=b, sign=sign)
-        c = calculation(calc_input.a, calc_input.b, calc_input.sign)
-        calc_output = CalcOutput(a=a, b=b, sign=sign, c=c)
-        calc_output = CalcOutput(
-            a=calc_output.a, b=calc_output.b, c=calc_output.c, sign=calc_output.sign
-        )
-        return templates.TemplateResponse(
-            "calc.html", {"request": request, "calc_output": calc_output}
-        )
-    except ValidationError:
-        calc_output = CalcOutput(error="брат ты забыл что такое числа?")
-        return templates.TemplateResponse(
-            "calc.html",
-            {"request": request, "calc_output": calc_output},
-        )
-    except Exception:
-        calc_output = CalcOutput(error="что то непонятное ты делаешь")
-        return templates.TemplateResponse(
-            "calc.html", {"request": request, "calc_output": calc_output}
-        )
+@app.get("/signup", response_class=HTMLResponse)
+async def signup(request: Request):
+    return templates.TemplateResponse("signup.html", {"request": request})
 
 
-@app.get("/name", response_class=HTMLResponse)
-async def name(request: Request, first_name: str, last_name: str, surname: str):
+@app.post("/signup/processing")
+async def create_account(
+    request: Request, nickname: str = Form(...), password: str = Form(...)
+):
+    print(nickname)
+    print(password)
+    fake_user["nickname"] = nickname
+    fake_user["password"] = password
+    fake_user['photo'] = '/static/photo.jpg'
+    return RedirectResponse("/profile", status_code=302)
+
+
+@app.get("/profile")
+async def profile(request: Request):
     return templates.TemplateResponse(
-        "name.html",
-        {
-            "request": request,
-            "first_name": first_name,
-            "last_name": last_name,
-            "surname": surname,
-        },
+        "profile.html", {"request": request, "nickname": fake_user.get("nickname"), 'photo_url': fake_user.get('photo')}
     )
-
-
-@app.post("/loggin")
-async def loggin(request: Request, email: str = Form(...), password: int = Form(...)):
-    if password != 123456:
-        return {"error": "не ыерный пароль"}
-    else:
-        return templates.TemplateResponse(
-            "loggin.html",
-            {"request": request, "email": email, "password": password},
-        )

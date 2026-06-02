@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+<!DOCTY<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Вход</title>
+<title>Регистрация</title>
 
 <style>
 *{
@@ -31,12 +31,12 @@ body{
     overflow:hidden;
 }
 
-/* анимация появления */
+/* появление карточки */
 
 @keyframes fadeUp{
     from{
         opacity:0;
-        transform:translateY(35px);
+        transform:translateY(40px);
     }
 
     to{
@@ -45,27 +45,42 @@ body{
     }
 }
 
-/* свечение */
+/* пульс фона */
 
 @keyframes glow{
     0%{
-        box-shadow:0 0 12px rgba(45,127,122,.2);
+        box-shadow:0 0 10px rgba(45,127,122,.25);
     }
 
     50%{
-        box-shadow:0 0 30px rgba(45,127,122,.45);
+        box-shadow:0 0 28px rgba(45,127,122,.45);
     }
 
     100%{
-        box-shadow:0 0 12px rgba(45,127,122,.2);
+        box-shadow:0 0 10px rgba(45,127,122,.25);
     }
 }
 
-.container{
-    width:340px;
+.card{
+    width:360px;
+
+    background:#0d2629;
+
+    padding:32px;
+
+    border-radius:24px;
+
+    border:1px solid #2d7f7a;
 
     animation:
-        fadeUp .7s ease;
+        fadeUp .7s ease,
+        glow 4s infinite;
+
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-6px);
 }
 
 h1{
@@ -73,34 +88,20 @@ h1{
 
     color:#d7fffa;
 
-    margin-bottom:24px;
+    margin-bottom:22px;
 
-    font-size:32px;
+    font-size:30px;
 }
 
 form{
-    background:#0d2629;
-
-    padding:28px;
-
-    border-radius:22px;
-
     display:flex;
     flex-direction:column;
     gap:14px;
-
-    border:1px solid #2d7f7a;
-
-    animation: glow 4s infinite;
-
-    transition:.3s;
-}
-
-form:hover{
-    transform:translateY(-5px);
 }
 
 input{
+    width:100%;
+
     padding:14px;
 
     border:none;
@@ -126,11 +127,11 @@ input:focus{
     transform:scale(1.02);
 
     box-shadow:
-        0 0 0 2px rgba(129,216,208,.25);
+        0 0 0 2px rgba(129,216,208,.3);
 }
 
 button{
-    margin-top:6px;
+    width:100%;
 
     padding:14px;
 
@@ -143,14 +144,14 @@ button{
     font-size:15px;
     font-weight:bold;
 
+    color:white;
+
     background:
         linear-gradient(
             135deg,
             #2d7f7a,
             #46b8b0
         );
-
-    color:white;
 
     transition:.25s;
 }
@@ -165,9 +166,9 @@ button:hover{
 a{
     display:block;
 
-    margin-top:18px;
-
     text-align:center;
+
+    margin-top:18px;
 
     color:#8ed5cb;
 
@@ -180,20 +181,20 @@ a:hover{
     color:#d7fffa;
 }
 </style>
-</head>
 
+</head>
 <body>
 
-<div class="container">
+<div class="card">
 
-    <h1>Вход</h1>
+    <h1>Регистрация</h1>
 
-    <form action="/profile" method="post">
+    <form action="/signup/processing" method="post">
 
         <input
             type="text"
-            name="email"
-            placeholder="Email"
+            name="nickname"
+            placeholder="Nickname"
         >
 
         <input
@@ -203,13 +204,13 @@ a:hover{
         >
 
         <button type="submit">
-            Войти
+            Создать аккаунт
         </button>
 
     </form>
 
-    <a href="/signup">
-        Регистрация
+    <a href="/">
+        Назад
     </a>
 
 </div>
