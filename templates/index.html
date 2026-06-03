@@ -314,10 +314,69 @@
       a:hover {
         color: #59d6c9;
       }
+
+      .error {
+        background: rgba(255, 70, 70, 0.1);
+
+        border: 1px solid rgba(255, 70, 70, 0.3);
+
+        color: #ff7a7a;
+
+        padding: 12px;
+
+        border-radius: 14px;
+
+        margin-bottom: 14px;
+
+        text-align: center;
+
+        animation: errorShow 0.3s ease;
+      }
+
+      @keyframes errorShow {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .stars {
+        position: absolute;
+        inset: 0;
+
+        background-image:
+          radial-gradient(2px 2px at 50px 60px, #fff, transparent),
+          radial-gradient(2px 2px at 300px 180px, #fff, transparent),
+          radial-gradient(1px 1px at 600px 100px, #fff, transparent),
+          radial-gradient(2px 2px at 900px 300px, #fff, transparent);
+
+        background-size: 1200px 600px;
+
+        opacity: 0.35;
+
+        animation: starsMove 40s linear infinite;
+      }
+
+      @keyframes starsMove {
+        from {
+          transform: translateY(0);
+        }
+
+        to {
+          transform: translateY(-120px);
+        }
+      }
     </style>
   </head>
 
   <body>
+    <div class="stars"></div>
+
     <div class="blur blur1"></div>
     <div class="blur blur2"></div>
 
@@ -329,11 +388,18 @@
       <h1>Вход</h1>
 
       <div class="line"></div>
+      {% if error %}
+      <div class="error">{{ error }}</div>
+      {% endif %}
 
-      <form action="/signup/processing" method="post">
+      <form action="/login" method="post">
         <input type="text" name="nickname" placeholder="Nickname" />
 
-        <input type="password" name="password" placeholder="Пароль" />
+        <input
+          type="password"
+          name="password"
+          placeholder="Пароль"
+        />
 
         <button type="submit">Войти</button>
       </form>

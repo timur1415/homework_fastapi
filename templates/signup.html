@@ -14,21 +14,13 @@
 
       body {
         min-height: 100vh;
-
         display: flex;
         justify-content: center;
         align-items: center;
-
         font-family: Arial, sans-serif;
-
         background: #000;
-
         overflow: hidden;
       }
-
-      /* ====================== */
-      /* ФОН */
-      /* ====================== */
 
       .blur {
         position: absolute;
@@ -65,10 +57,6 @@
         animation: float2 12s ease-in-out infinite;
       }
 
-      /* ====================== */
-      /* АНИМАЦИИ */
-      /* ====================== */
-
       @keyframes fadeUp {
         from {
           opacity: 0;
@@ -78,6 +66,17 @@
         to {
           opacity: 1;
           transform: translateY(0);
+        }
+      }
+
+      @keyframes glow {
+        0%,
+        100% {
+          box-shadow: 0 0 15px rgba(89, 214, 201, 0.08);
+        }
+
+        50% {
+          box-shadow: 0 0 40px rgba(89, 214, 201, 0.18);
         }
       }
 
@@ -103,50 +102,53 @@
         }
       }
 
-      @keyframes glow {
-        0%,
-        100% {
-          box-shadow: 0 0 15px rgba(89, 214, 201, 0.08);
-        }
-
-        50% {
-          box-shadow: 0 0 40px rgba(89, 214, 201, 0.18);
-        }
-      }
-
       @keyframes starGlow {
         0%,
         100% {
           opacity: 0.7;
-
           text-shadow: 0 0 10px rgba(89, 214, 201, 0.3);
         }
 
         50% {
           opacity: 1;
-
           text-shadow:
             0 0 25px rgba(89, 214, 201, 0.8),
             0 0 40px rgba(89, 214, 201, 0.4);
         }
       }
 
-      /* ====================== */
-      /* КАРТОЧКА */
-      /* ====================== */
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+
+        20% {
+          transform: translateX(-8px);
+        }
+
+        40% {
+          transform: translateX(8px);
+        }
+
+        60% {
+          transform: translateX(-8px);
+        }
+
+        80% {
+          transform: translateX(8px);
+        }
+      }
 
       .card {
         width: 380px;
-
         position: relative;
         z-index: 2;
 
         background: rgba(12, 12, 12, 0.92);
-
         backdrop-filter: blur(20px);
 
         border: 1px solid rgba(255, 255, 255, 0.08);
-
         border-radius: 28px;
 
         padding: 34px;
@@ -162,68 +164,60 @@
         transform: translateY(-5px) scale(1.01);
       }
 
-      /* ====================== */
-      /* ЛОГО */
-      /* ====================== */
-
       .logo {
         text-align: center;
-
         font-size: 42px;
-
         font-weight: 800;
-
         letter-spacing: 4px;
-
         color: white;
-
         margin-bottom: 8px;
       }
 
       .logo span {
         color: #59d6c9;
-
         animation: starGlow 3s infinite;
       }
 
       .subtitle {
         text-align: center;
-
         color: #8b949e;
-
         font-size: 14px;
-
         margin-bottom: 28px;
       }
 
-      /* ====================== */
-      /* ЗАГОЛОВОК */
-      /* ====================== */
-
       h1 {
         text-align: center;
-
         color: white;
-
         margin-bottom: 12px;
-
         font-size: 30px;
       }
 
       .line {
         width: 60px;
         height: 4px;
-
         border-radius: 999px;
-
         background: #59d6c9;
-
         margin: 0 auto 24px auto;
       }
 
-      /* ====================== */
-      /* ФОРМА */
-      /* ====================== */
+      .error {
+        margin-bottom: 15px;
+        padding: 12px;
+
+        border-radius: 12px;
+
+        background: rgba(255, 70, 70, 0.12);
+
+        border: 1px solid rgba(255, 70, 70, 0.3);
+
+        color: #ff7a7a;
+
+        text-align: center;
+
+        font-size: 14px;
+
+        animation: shake 0.5s ease;
+      }
 
       form {
         display: flex;
@@ -251,10 +245,6 @@
         transition: 0.25s;
       }
 
-      input::placeholder {
-        color: #6b7280;
-      }
-
       input:focus {
         transform: scale(1.02);
 
@@ -263,9 +253,14 @@
         box-shadow: 0 0 0 2px rgba(89, 214, 201, 0.25);
       }
 
-      /* ====================== */
-      /* КНОПКА */
-      /* ====================== */
+      input::placeholder {
+        color: #6b7280;
+      }
+
+      input:focus {
+        background: #181818;
+        box-shadow: 0 0 0 2px rgba(89, 214, 201, 0.25);
+      }
 
       button {
         width: 100%;
@@ -279,6 +274,7 @@
         cursor: pointer;
 
         font-size: 15px;
+
         font-weight: bold;
 
         background: #59d6c9;
@@ -296,15 +292,10 @@
 
       a {
         display: block;
-
         text-align: center;
-
         margin-top: 18px;
         color: #8b949e;
-
         text-decoration: none;
-
-        transition: 0.25s;
       }
 
       a:hover {
@@ -320,21 +311,28 @@
     <div class="card">
       <div class="logo">NOVI <span>✦</span></div>
 
-      <div class="subtitle">Стань одним из первых пользователей 🚀</div>
+      <div class="subtitle">Исследуй новый мир 🌍</div>
 
       <h1>Регистрация</h1>
 
       <div class="line"></div>
 
+      {% if error %}
+      <div class="error">{{ error }}</div>
+      {% endif %}
+
       <form action="/signup/processing" method="post">
-        <input type="text" name="nickname" placeholder="Nickname" />
+        <input type="text" name="nickname" placeholder="Nickname" required />
 
-        <input type="password" name="password" placeholder="Пароль" />
-
+        <input
+          type="password"
+          name="password"
+          placeholder="Пароль"
+        />
         <button type="submit">Создать аккаунт</button>
       </form>
 
-      <a href="/"> Уже есть аккаунт? </a>
+      <a href="/">Уже есть аккаунт?</a>
     </div>
   </body>
 </html>
