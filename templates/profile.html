@@ -2,9 +2,11 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{{ nickname }}</title>
 
 <style>
+
 *{
     margin:0;
     padding:0;
@@ -12,150 +14,273 @@
 }
 
 body{
-    font-family: Arial, sans-serif;
+    background:#000;
+    color:white;
+
+    font-family:Arial,sans-serif;
+
     min-height:100vh;
-
-    background:
-        radial-gradient(circle at top, #2e8b8b 0%, #0b2d30 40%, #07191b 100%);
-
-    padding:40px 20px;
 
     display:flex;
     justify-content:center;
+
+    padding:40px 20px;
+
+    overflow-x:hidden;
+}
+
+/* ================= */
+/* ФОН */
+/* ================= */
+
+.blur{
+    position:fixed;
+    border-radius:50%;
+    filter:blur(140px);
+    z-index:-3;
+}
+
+.blur1{
+    width:500px;
+    height:500px;
+
+    background:#59d6c9;
+
+    top:-200px;
+    left:-200px;
+
+    opacity:.12;
+
+    animation:float1 12s ease-in-out infinite;
+}
+
+.blur2{
+    width:400px;
+    height:400px;
+
+    background:#59d6c9;
+
+    bottom:-150px;
+    right:-150px;
+
+    opacity:.08;
+
+    animation:float2 15s ease-in-out infinite;
+}
+
+.grid{
+    position:fixed;
+
+    inset:0;
+
+    background-image:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+
+    background-size:50px 50px;
+
+    z-index:-2;
+}
+
+/* ================= */
+/* АНИМАЦИИ */
+/* ================= */
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes float1{
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(60px);
+    }
+}
+
+@keyframes float2{
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-60px);
+    }
 }
 
 .container{
-    width:650px;
+    width:700px;
+    animation:fadeUp .7s ease;
 }
 
-/* PROFILE */
+/* ================= */
+/* NAVBAR */
+/* ================= */
+
+.navbar{
+    background:rgba(13,13,13,.8);
+
+    backdrop-filter:blur(20px);
+
+    border:1px solid #1f1f1f;
+
+    border-radius:20px;
+
+    padding:16px 24px;
+
+    margin-bottom:24px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    color:#59d6c9;
+
+    font-size:24px;
+    font-weight:bold;
+}
+
+.nav-user{
+    color:#8b949e;
+}
+
+/* ================= */
+/* ПРОФИЛЬ */
+/* ================= */
 
 .profile{
-    background: rgba(13,38,41,.95);
+    background:#0d0d0d;
+
+    border:1px solid #1f1f1f;
 
     border-radius:24px;
 
-    padding:24px;
+    padding:28px;
 
-    border:1px solid rgba(129,216,208,.45);
+    transition:.3s;
+}
 
-    box-shadow:
-        0 15px 40px rgba(0,0,0,.35);
+.profile:hover{
+    transform:translateY(-4px);
 }
 
 .profile-top{
     display:flex;
     align-items:center;
-    gap:16px;
+    gap:18px;
 }
 
 .avatar{
-    width:74px;
-    height:74px;
+    width:80px;
+    height:80px;
 
     border-radius:50%;
+
+    background:#59d6c9;
+
+    color:black;
 
     display:flex;
     justify-content:center;
     align-items:center;
 
-    font-size:34px;
-
-    background: linear-gradient(
-        135deg,
-        #59d6c9,
-        #2f8f88
-    );
+    font-size:32px;
+    font-weight:bold;
 }
 
 .name{
-    font-size:28px;
+    font-size:32px;
     font-weight:700;
-
-    color:#d7fffa;
 }
 
 .desc{
+    color:#8b949e;
     margin-top:6px;
-
-    color:#8ed5cb;
 }
-
-/* stats */
 
 .stats{
-    display:flex;
-    gap:14px;
-
     margin-top:20px;
+    color:#8b949e;
 }
 
-.stat{
-    flex:1;
+.create-btn{
+    margin-top:20px;
 
-    padding:14px;
+    background:#59d6c9;
 
-    border-radius:18px;
-
-    text-align:center;
-
-    background:#12363a;
-}
-
-.stat-num{
-    font-size:22px;
-    font-weight:700;
-    color:#d7fffa;
-}
-
-.stat-label{
-    font-size:14px;
-    color:#86c8bf;
-    margin-top:5px;
-}
-
-.profile-btn{
-    margin-top:18px;
-
-    background:#2d7f7a;
-
-    color:white;
-
-    text-align:center;
+    color:black;
 
     padding:14px;
 
     border-radius:16px;
 
+    text-align:center;
+
     font-weight:bold;
+
+    cursor:pointer;
 }
 
-/* post */
+/* ================= */
+/* ПОСТ */
+/* ================= */
 
 .post{
     margin-top:24px;
 
-    background: rgba(13,38,41,.96);
+    background:#0d0d0d;
+
+    border:1px solid #1f1f1f;
 
     border-radius:24px;
 
     overflow:hidden;
-
-    border:1px solid rgba(129,216,208,.35);
-
-    box-shadow:
-        0 15px 40px rgba(0,0,0,.35);
 }
 
 .post-header{
     padding:18px;
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.post-avatar{
+    width:42px;
+    height:42px;
+
+    border-radius:50%;
+
+    background:#59d6c9;
+
+    color:black;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
     font-weight:bold;
-    color:#d7fffa;
+}
+
+.post-user{
+    font-weight:bold;
 }
 
 .post-img{
     width:100%;
-    height:430px;
+    height:450px;
 }
 
 .post-img img{
@@ -163,123 +288,119 @@ body{
     height:100%;
 
     object-fit:cover;
-    display:block;
 }
 
 .post-text{
-    padding:18px;
-
-    color:#d7fffa;
+    padding:20px;
+    line-height:1.6;
 }
 
-.like{
-    color:#74ffe7;
-    margin-right:8px;
+.post-actions{
+    padding:0 20px 20px;
+
+    display:flex;
+    gap:18px;
+
+    color:#8b949e;
 }
 
-/* gallery */
+/* ================= */
+/* ПУСТО */
+/* ================= */
 
-.gallery-title{
+.empty{
     margin-top:24px;
-    margin-bottom:14px;
 
-    font-size:20px;
-    color:#d7fffa;
-}
+    background:#0d0d0d;
 
-.gallery{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
-}
+    border:1px solid #1f1f1f;
 
-.gallery-item{
-    height:130px;
+    border-radius:24px;
 
-    border-radius:16px;
+    padding:40px;
 
-    background:linear-gradient(
-        135deg,
-        #1d5053,
-        #2f8f88
-    );
+    text-align:center;
+
+    color:#8b949e;
 }
 </style>
-
 </head>
+
 <body>
 
+<div class="blur blur1"></div>
+<div class="blur blur2"></div>
+<div class="grid"></div>
+
 <div class="container">
+
+    <div class="navbar">
+        <div class="logo">NOVI ✦</div>
+        <div class="nav-user">{{ nickname }}</div>
+    </div>
 
     <div class="profile">
 
         <div class="profile-top">
 
             <div class="avatar">
-                😎
+                {{ nickname[0]|upper }}
             </div>
 
             <div>
-                <div class="name">{{ nickname }}</div>
-                <div class="desc">
-                    мой мини профиль ✨
+
+                <div class="name">
+                    {{ nickname }}
                 </div>
+
+                <div class="desc">
+                    Создатель будущей лучшей соцсети 🚀
+                </div>
+
             </div>
 
         </div>
 
         <div class="stats">
-
-            <div class="stat">
-                <div class="stat-num">1</div>
-                <div class="stat-label">пост</div>
-            </div>
-
-            <div class="stat">
-                <div class="stat-num">247</div>
-                <div class="stat-label">подписчиков</div>
-            </div>
-
-            <div class="stat">
-                <div class="stat-num">89</div>
-                <div class="stat-label">подписок</div>
-            </div>
-
+            1 пост · 247 подписчиков · 89 подписок
         </div>
 
-        <div class="profile-btn">
-            Редактировать профиль
+        <div class="create-btn">
+            Создать пост
         </div>
 
     </div>
-
 
     <div class="post">
 
         <div class="post-header">
-            {{ nickname }}
+
+            <div class="post-avatar">
+                {{ nickname[0]|upper }}
+            </div>
+
+            <div class="post-user">
+                {{ nickname }}
+            </div>
+
         </div>
 
         <div class="post-img">
-            <img src="{{ photo_url }}" alt="post photo">
+            <img src="{{ photo_url }}" alt="">
         </div>
 
         <div class="post-text">
-            <span class="like">♥</span>
-            Первый пост в профиле @{{ nickname }}
+            🚀 Первый пост в моей новой соцсети. Если ты это видишь — значит ты один из первых пользователей проекта.
+        </div>
+
+        <div class="post-actions">
+            ❤️ 12 &nbsp;&nbsp; 💬 4
         </div>
 
     </div>
 
-
-    <div class="gallery-title">
-        Галерея
-    </div>
-
-    <div class="gallery">
-        <div class="gallery-item"></div>
-        <div class="gallery-item"></div>
-        <div class="gallery-item"></div>
+    <div class="empty">
+        Здесь будут появляться следующие посты
     </div>
 
 </div>

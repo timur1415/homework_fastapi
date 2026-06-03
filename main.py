@@ -15,17 +15,6 @@ app = FastAPI()
 app.mount('/static', StaticFiles(directory='static'))
 
 
-def calculation(a: int, b: int, sign: str):
-    if sign == "-":
-        return a - b
-    elif sign == "+":
-        return a + b
-    elif sign == "/":
-        return a / b
-    elif sign == "*":
-        return a * b
-
-
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})

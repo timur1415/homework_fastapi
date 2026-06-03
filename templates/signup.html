@@ -1,219 +1,340 @@
-<!DOCTY<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
-<head>
-<meta charset="UTF-8">
-<title>Регистрация</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NOVI ✦ | Регистрация</title>
 
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        font-family: Arial, sans-serif;
+
+        background: #000;
+
+        overflow: hidden;
+      }
+
+      /* ====================== */
+      /* ФОН */
+      /* ====================== */
+
+      .blur {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(120px);
+        z-index: 0;
+      }
+
+      .blur1 {
+        width: 350px;
+        height: 350px;
+
+        background: #59d6c9;
+
+        top: -120px;
+        left: -120px;
 
-body{
-    min-height:100vh;
+        opacity: 0.12;
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
+        animation: float1 10s ease-in-out infinite;
+      }
 
-    font-family: Arial, sans-serif;
+      .blur2 {
+        width: 300px;
+        height: 300px;
 
-    background:
-        linear-gradient(
-            135deg,
-            #06181b,
-            #0d2c2f,
-            #144347
-        );
+        background: #59d6c9;
 
-    overflow:hidden;
-}
+        bottom: -120px;
+        right: -120px;
 
-/* появление карточки */
+        opacity: 0.08;
 
-@keyframes fadeUp{
-    from{
-        opacity:0;
-        transform:translateY(40px);
-    }
+        animation: float2 12s ease-in-out infinite;
+      }
 
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
+      /* ====================== */
+      /* АНИМАЦИИ */
+      /* ====================== */
 
-/* пульс фона */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(40px);
+        }
 
-@keyframes glow{
-    0%{
-        box-shadow:0 0 10px rgba(45,127,122,.25);
-    }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
 
-    50%{
-        box-shadow:0 0 28px rgba(45,127,122,.45);
-    }
+      @keyframes float1 {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
 
-    100%{
-        box-shadow:0 0 10px rgba(45,127,122,.25);
-    }
-}
+        50% {
+          transform: translateY(40px);
+        }
+      }
 
-.card{
-    width:360px;
+      @keyframes float2 {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
 
-    background:#0d2629;
+        50% {
+          transform: translateY(-40px);
+        }
+      }
 
-    padding:32px;
+      @keyframes glow {
+        0%,
+        100% {
+          box-shadow: 0 0 15px rgba(89, 214, 201, 0.08);
+        }
 
-    border-radius:24px;
+        50% {
+          box-shadow: 0 0 40px rgba(89, 214, 201, 0.18);
+        }
+      }
 
-    border:1px solid #2d7f7a;
+      @keyframes starGlow {
+        0%,
+        100% {
+          opacity: 0.7;
 
-    animation:
-        fadeUp .7s ease,
-        glow 4s infinite;
+          text-shadow: 0 0 10px rgba(89, 214, 201, 0.3);
+        }
 
-    transition:.3s;
-}
+        50% {
+          opacity: 1;
 
-.card:hover{
-    transform:translateY(-6px);
-}
+          text-shadow:
+            0 0 25px rgba(89, 214, 201, 0.8),
+            0 0 40px rgba(89, 214, 201, 0.4);
+        }
+      }
 
-h1{
-    text-align:center;
+      /* ====================== */
+      /* КАРТОЧКА */
+      /* ====================== */
 
-    color:#d7fffa;
+      .card {
+        width: 380px;
 
-    margin-bottom:22px;
+        position: relative;
+        z-index: 2;
 
-    font-size:30px;
-}
+        background: rgba(12, 12, 12, 0.92);
 
-form{
-    display:flex;
-    flex-direction:column;
-    gap:14px;
-}
+        backdrop-filter: blur(20px);
 
-input{
-    width:100%;
+        border: 1px solid rgba(255, 255, 255, 0.08);
 
-    padding:14px;
+        border-radius: 28px;
 
-    border:none;
+        padding: 34px;
 
-    border-radius:12px;
+        animation:
+          fadeUp 0.8s ease,
+          glow 5s infinite;
 
-    outline:none;
+        transition: 0.35s;
+      }
 
-    font-size:15px;
+      .card:hover {
+        transform: translateY(-5px) scale(1.01);
+      }
 
-    background:#14363a;
+      /* ====================== */
+      /* ЛОГО */
+      /* ====================== */
 
-    color:white;
+      .logo {
+        text-align: center;
 
-    transition:.25s;
-}
+        font-size: 42px;
 
-input::placeholder{
-    color:#8bcac2;
-}
+        font-weight: 800;
 
-input:focus{
-    transform:scale(1.02);
+        letter-spacing: 4px;
 
-    box-shadow:
-        0 0 0 2px rgba(129,216,208,.3);
-}
+        color: white;
 
-button{
-    width:100%;
+        margin-bottom: 8px;
+      }
 
-    padding:14px;
+      .logo span {
+        color: #59d6c9;
 
-    border:none;
+        animation: starGlow 3s infinite;
+      }
 
-    border-radius:12px;
+      .subtitle {
+        text-align: center;
 
-    cursor:pointer;
+        color: #8b949e;
 
-    font-size:15px;
-    font-weight:bold;
+        font-size: 14px;
 
-    color:white;
+        margin-bottom: 28px;
+      }
 
-    background:
-        linear-gradient(
-            135deg,
-            #2d7f7a,
-            #46b8b0
-        );
+      /* ====================== */
+      /* ЗАГОЛОВОК */
+      /* ====================== */
 
-    transition:.25s;
-}
+      h1 {
+        text-align: center;
 
-button:hover{
-    transform:translateY(-2px);
+        color: white;
 
-    box-shadow:
-        0 8px 20px rgba(70,184,176,.35);
-}
+        margin-bottom: 12px;
 
-a{
-    display:block;
+        font-size: 30px;
+      }
 
-    text-align:center;
+      .line {
+        width: 60px;
+        height: 4px;
 
-    margin-top:18px;
+        border-radius: 999px;
 
-    color:#8ed5cb;
+        background: #59d6c9;
 
-    text-decoration:none;
+        margin: 0 auto 24px auto;
+      }
 
-    transition:.2s;
-}
+      /* ====================== */
+      /* ФОРМА */
+      /* ====================== */
 
-a:hover{
-    color:#d7fffa;
-}
-</style>
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
 
-</head>
-<body>
+      input {
+        width: 100%;
 
-<div class="card">
+        padding: 15px;
 
-    <h1>Регистрация</h1>
+        border: none;
 
-    <form action="/signup/processing" method="post">
+        border-radius: 14px;
 
-        <input
-            type="text"
-            name="nickname"
-            placeholder="Nickname"
-        >
+        outline: none;
 
-        <input
-            type="password"
-            name="password"
-            placeholder="Пароль"
-        >
+        background: #131313;
 
-        <button type="submit">
-            Создать аккаунт
-        </button>
+        color: white;
 
-    </form>
+        font-size: 15px;
 
-    <a href="/">
-        Назад
-    </a>
+        transition: 0.25s;
+      }
 
-</div>
+      input::placeholder {
+        color: #6b7280;
+      }
 
-</body>
+      input:focus {
+        transform: scale(1.02);
+
+        background: #181818;
+
+        box-shadow: 0 0 0 2px rgba(89, 214, 201, 0.25);
+      }
+
+      /* ====================== */
+      /* КНОПКА */
+      /* ====================== */
+
+      button {
+        width: 100%;
+
+        padding: 15px;
+
+        border: none;
+
+        border-radius: 14px;
+
+        cursor: pointer;
+
+        font-size: 15px;
+        font-weight: bold;
+
+        background: #59d6c9;
+
+        color: black;
+
+        transition: 0.25s;
+      }
+
+      button:hover {
+        transform: translateY(-3px) scale(1.02);
+
+        box-shadow: 0 10px 25px rgba(89, 214, 201, 0.25);
+      }
+
+      a {
+        display: block;
+
+        text-align: center;
+
+        margin-top: 18px;
+        color: #8b949e;
+
+        text-decoration: none;
+
+        transition: 0.25s;
+      }
+
+      a:hover {
+        color: #59d6c9;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="blur blur1"></div>
+    <div class="blur blur2"></div>
+
+    <div class="card">
+      <div class="logo">NOVI <span>✦</span></div>
+
+      <div class="subtitle">Стань одним из первых пользователей 🚀</div>
+
+      <h1>Регистрация</h1>
+
+      <div class="line"></div>
+
+      <form action="/signup/processing" method="post">
+        <input type="text" name="nickname" placeholder="Nickname" />
+
+        <input type="password" name="password" placeholder="Пароль" />
+
+        <button type="submit">Создать аккаунт</button>
+      </form>
+
+      <a href="/"> Уже есть аккаунт? </a>
+    </div>
+  </body>
 </html>
