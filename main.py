@@ -3,12 +3,15 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from db.users import add_user, init_db, user_exists, get_user
+from starlette.middleware.sessions import SessionMiddleware
 
 
 templates = Jinja2Templates(directory="templates")
 
 
 app = FastAPI()
+
+app.add_middleware(SessionMiddleware, secret_key="novi_secret_key")
 
 
 @app.on_event("startup")
@@ -44,7 +47,7 @@ async def create_account(
                 "error": "Никнейм занят. придумай что-нибудь уникальное",
             },
         )
-    
+
     if len(password) < 6:
         return templates.TemplateResponse(
             "signup.html",
@@ -54,26 +57,16 @@ async def create_account(
             },
         )
 
-
     await add_user(password, nickname)
 
-    return RedirectResponse(f"/profile?nickname={nickname}", status_code=302)
+    request.session['nickname'] = nickname
+
+    return RedirectResponse("/profile", status_code=302)
 
 
 @app.post("/login")
-async def login(
-    request: Request, nickname: str = Form(...), password: str = Form(...)
-):
+async def login(request: Request, nickname: str = Form(...), password: str = Form(...)):
     user = await get_user(nickname)
-
-    if await user_exists(nickname):
-        return templates.TemplateResponse(
-            "signup.html",
-            {
-                "request": request,
-                "error": "Никнейм занят. придумай что-нибудь уникальное",
-            },
-        )
 
     if user is None:
         return templates.TemplateResponse(
@@ -82,8 +75,8 @@ async def login(
                 "request": request,
                 "error": "Пользователь не найден",
             },
-        ) 
-    
+        )
+
     if user[1] != password:
         return templates.TemplateResponse(
             "index.html",
@@ -93,13 +86,21 @@ async def login(
             },
         )
     
-    return RedirectResponse(f"/profile?nickname={nickname}", status_code=302)
+    request.session['nickname'] = nickname
+
+    return RedirectResponse("/profile", status_code=302)
 
 
 @app.get("/profile")
-async def profile(request: Request, nickname: str):
+async def profile(request: Request):
+
+    nickname = request.session.get('nickname')
+
+    if not nickname:
+        return RedirectResponse('/')
 
     return templates.TemplateResponse(
         "profile.html",
         {"request": request, "nickname": nickname, "photo_url": "/static/photo.jpg"},
     )
+

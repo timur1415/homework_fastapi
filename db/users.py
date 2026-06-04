@@ -25,6 +25,14 @@ async def init_db():
         await db.commit()
         print("создал таблицу")
 
+        await db.execute("""
+        CREATE TABLE IF NOT EXISTS posts (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            author TEXT NOT NULL,
+            content TEXT NOT NULL,
+            created_at TEXT DEFAULT CURRENT_TIMESTAMP
+        );""")
+
 
 async def add_user(password: str, nickname: str):
     async with aiosqlite.connect(DB_PATH) as db:
