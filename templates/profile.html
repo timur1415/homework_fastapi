@@ -98,6 +98,18 @@ body{
     }
 }
 
+@keyframes assemble{
+    from{
+        opacity:0;
+        transform:translateY(24px) scale(0.95);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+}
+
 @keyframes float1{
     0%,100%{
         transform:translateY(0);
@@ -170,6 +182,10 @@ body{
     padding:28px;
 
     transition:.3s;
+    opacity:0;
+    transform:translateY(20px) scale(0.96);
+    animation:assemble .6s ease-out forwards;
+    animation-delay:.2s;
 }
 
 .profile:hover{
@@ -180,6 +196,54 @@ body{
     display:flex;
     align-items:center;
     gap:18px;
+    opacity:0;
+    animation:assemble .5s ease-out forwards;
+    animation-delay:.35s;
+}
+
+.avatar,
+.name,
+.desc,
+.stats,
+.create-btn,
+.post,
+.empty,
+.post-header{
+    opacity:0;
+    transform:translateY(16px);
+    animation:assemble .5s ease-out forwards;
+}
+
+.avatar{
+    animation-delay:.45s;
+}
+
+.name{
+    animation-delay:.55s;
+}
+
+.desc{
+    animation-delay:.65s;
+}
+
+.stats{
+    animation-delay:.75s;
+}
+
+.create-btn{
+    animation-delay:.85s;
+}
+
+.post{
+    animation-delay:.95s;
+}
+
+.post-header{
+    animation-delay:1.05s;
+}
+
+.empty{
+    animation-delay:1.15s;
 }
 
 .avatar{

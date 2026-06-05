@@ -102,6 +102,33 @@
         }
       }
 
+      /* Новый фон: медленно вращающийся конусный градиент */
+      .bg-gradient{
+        position: fixed;
+        inset: 0;
+        z-index: -4;
+        opacity: 0.12;
+        background: conic-gradient(from 90deg at 50% 50%, #0b0f10, #0b1212, #0b0f10, #0b1212);
+        filter: blur(80px) saturate(120%);
+        animation: rotateGradient 30s linear infinite;
+        pointer-events: none;
+      }
+
+      @keyframes rotateGradient{
+        from{transform: rotate(0deg);} 
+        to{transform: rotate(360deg);} 
+      }
+
+      /* Дополнительный тональный слой для глубины */
+      .bg-velvet{
+        position: fixed;
+        inset: 0;
+        z-index: -3;
+        background: radial-gradient(circle at 20% 20%, rgba(89,214,201,0.06), transparent 15%),
+                    radial-gradient(circle at 80% 80%, rgba(89,214,201,0.04), transparent 18%);
+        pointer-events: none;
+      }
+
       @keyframes starGlow {
         0%,
         100% {
@@ -307,6 +334,8 @@
   <body>
     <div class="blur blur1"></div>
     <div class="blur blur2"></div>
+    <div class="bg-gradient"></div>
+    <div class="bg-velvet"></div>
 
     <div class="card">
       <div class="logo">NOVI <span>✦</span></div>

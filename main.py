@@ -4,6 +4,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from db.users import add_user, init_db, user_exists, get_user
 from starlette.middleware.sessions import SessionMiddleware
+from db.posts import add_post
 
 
 templates = Jinja2Templates(directory="templates")
@@ -17,6 +18,7 @@ app.add_middleware(SessionMiddleware, secret_key="novi_secret_key")
 @app.on_event("startup")
 async def startup():
     await init_db()
+    await add_post('makssud', 'я крут')
 
 
 app.mount("/static", StaticFiles(directory="static"))
