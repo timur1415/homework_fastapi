@@ -18,7 +18,6 @@ app.add_middleware(SessionMiddleware, secret_key="novi_secret_key")
 @app.on_event("startup")
 async def startup():
     await init_db()
-    await add_post('makssud', 'я крут')
 
 
 app.mount("/static", StaticFiles(directory="static"))
@@ -61,7 +60,7 @@ async def create_account(
 
     await add_user(password, nickname)
 
-    request.session['nickname'] = nickname
+    request.session["nickname"] = nickname
 
     return RedirectResponse("/profile", status_code=302)
 
@@ -87,8 +86,8 @@ async def login(request: Request, nickname: str = Form(...), password: str = For
                 "error": "Неверный пароль",
             },
         )
-    
-    request.session['nickname'] = nickname
+
+    request.session["nickname"] = nickname
 
     return RedirectResponse("/profile", status_code=302)
 
@@ -96,13 +95,32 @@ async def login(request: Request, nickname: str = Form(...), password: str = For
 @app.get("/profile")
 async def profile(request: Request):
 
-    nickname = request.session.get('nickname')
+    nickname = request.session.get("nickname")
 
     if not nickname:
-        return RedirectResponse('/')
+        return RedirectResponse("/")
 
     return templates.TemplateResponse(
         "profile.html",
         {"request": request, "nickname": nickname, "photo_url": "/static/photo.jpg"},
     )
+
+
+@app.get("/post")
+async def post(request: Request):
+    return templates.TemplateResponse(
+        "post.html",
+        {"request": request},
+    )
+
+
+@app.post("/create_post")
+async def create_post_post(request: Request, content: str = Form(...)):
+    nickname = request.session.get("nickname")
+
+    if not nickname:
+        RedirectResponse('/')
+
+    await add_post(nickname, content)
+    return RedirectResponse("/profile", status_code=302)
 

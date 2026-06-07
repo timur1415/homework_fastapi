@@ -20,5 +20,6 @@ async def get_post(author: str, content: str):
             "SELECT * FROM posts ORDER BY id DESC",
         
         )
+        await db.commit()
 
         return await cursor.fetchall()

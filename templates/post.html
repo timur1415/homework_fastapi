@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создать пост</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 32px;
+        }
+
+        .page {
+            width: min(700px, 100%);
+            background: #0d0d0d;
+            border: 1px solid #1f1f1f;
+            border-radius: 28px;
+            padding: 32px;
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.25);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .header-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .back-link {
+            color: #59d6c9;
+            text-decoration: none;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .form-card {
+            display: grid;
+            gap: 18px;
+        }
+
+        label {
+            color: #8b949e;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 220px;
+            background: #070707;
+            border: 1px solid #1f1f1f;
+            border-radius: 18px;
+            color: #fff;
+            padding: 18px;
+            font-size: 16px;
+            line-height: 1.6;
+            resize: vertical;
+        }
+
+        textarea::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 18px;
+            background: #59d6c9;
+            color: #000;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .error {
+            padding: 16px;
+            border-radius: 18px;
+            background: rgba(255, 65, 65, 0.12);
+            border: 1px solid rgba(255, 65, 65, 0.25);
+            color: #ffb3b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="header">
+            <div class="header-title">Создать пост</div>
+            <a href="/profile" class="back-link">← Назад в профиль</a>
+        </div>
+
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+
+        <form class="form-card" action="/create_post" method="post">
+            <label for="content">Текст поста</label>
+            <textarea id="content" name="content" placeholder="Расскажи, что сегодня нового..." required></textarea>
+            <button type="submit" class="submit-btn">Опубликовать</button>
+        </form>
+    </div>
+</body>
+</html>
