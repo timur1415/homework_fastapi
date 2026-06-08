@@ -1,478 +1,398 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{ nickname }}</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ nickname }} | NOVI</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: #000;
+        color: white;
+        font-family: Arial, sans-serif;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      .blur {
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(150px);
+        z-index: -2;
+      }
+
+      .blur1 {
+        width: 400px;
+        height: 400px;
+        background: #59d6c9;
+        top: -150px;
+        left: -150px;
+        opacity: 0.12;
+      }
+
+      .blur2 {
+        width: 350px;
+        height: 350px;
+        background: #59d6c9;
+        bottom: -150px;
+        right: -150px;
+        opacity: 0.08;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 750px;
+        margin: auto;
+        padding: 30px 20px 120px;
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        padding: 18px 24px;
+
+        margin-bottom: 20px;
+
+        background: rgba(15, 15, 15, 0.92);
+
+        border: 1px solid rgba(255, 255, 255, 0.05);
+
+        border-radius: 24px;
+
+        backdrop-filter: blur(20px);
+      }
+
+      .logo {
+        font-size: 28px;
+        font-weight: 900;
+        letter-spacing: 4px;
+      }
+
+      .logo span {
+        color: #59d6c9;
+      }
+
+      .nav-logout {
+        color: #ff8c8c;
+        text-decoration: none;
+        font-weight: 700;
+      }
+
+      .profile {
+        background: rgba(13, 13, 13, 0.95);
+
+        border: 1px solid rgba(89, 214, 201, 0.08);
+
+        border-radius: 28px;
 
-<style>
+        overflow: hidden;
+
+        animation: profileShow 0.8s ease;
+      }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+      .cover {
+        height: 180px;
 
-body{
-    background:#000;
-    color:white;
+        background:
+          radial-gradient(
+            circle at 20% 20%,
+            rgba(89, 214, 201, 0.25),
+            transparent 40%
+          ),
+          radial-gradient(
+            circle at 80% 50%,
+            rgba(89, 214, 201, 0.15),
+            transparent 40%
+          ),
+          #111;
+      }
 
-    font-family:Arial,sans-serif;
+      .profile-content {
+        padding: 0 30px 30px;
+      }
 
-    min-height:100vh;
+      .avatar {
+        width: 120px;
+        height: 120px;
 
-    display:flex;
-    justify-content:center;
+        border-radius: 50%;
 
-    padding:40px 20px;
+        background: #59d6c9;
 
-    overflow-x:hidden;
-}
+        color: black;
 
-/* ================= */
-/* ФОН */
-/* ================= */
+        font-size: 48px;
+        font-weight: 900;
 
-.blur{
-    position:fixed;
-    border-radius:50%;
-    filter:blur(140px);
-    z-index:-3;
-}
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-.blur1{
-    width:500px;
-    height:500px;
+        margin-top: -60px;
 
-    background:#59d6c9;
+        border: 6px solid #0d0d0d;
 
-    top:-200px;
-    left:-200px;
+        box-shadow:
+          0 0 20px rgba(89, 214, 201, 0.3),
+          0 0 50px rgba(89, 214, 201, 0.15);
 
-    opacity:.12;
+        animation: avatarShow 1s ease;
+      }
 
-    animation:float1 12s ease-in-out infinite;
-}
+      .name {
+        margin-top: 18px;
+        font-size: 32px;
+        font-weight: 800;
+      }
 
-.blur2{
-    width:400px;
-    height:400px;
+      .tag {
+        color: #59d6c9;
+        margin-top: 6px;
+      }
 
-    background:#59d6c9;
+      .desc {
+        color: #9aa0a6;
+        margin-top: 14px;
+      }
+      .stats {
+        display: flex;
 
-    bottom:-150px;
-    right:-150px;
+        justify-content: space-around;
 
-    opacity:.08;
+        margin-top: 28px;
 
-    animation:float2 15s ease-in-out infinite;
-}
+        padding-top: 24px;
 
-.grid{
-    position:fixed;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+      }
 
-    inset:0;
+      .stat {
+        text-align: center;
+      }
 
-    background-image:
-        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      .stat-value {
+        font-size: 24px;
 
-    background-size:50px 50px;
+        font-weight: 800;
+      }
 
-    z-index:-2;
-}
+      .stat-name {
+        margin-top: 5px;
 
-/* ================= */
-/* АНИМАЦИИ */
-/* ================= */
+        color: #888;
 
-@keyframes fadeUp{
-    from{
-        opacity:0;
-        transform:translateY(30px);
-    }
+        font-size: 14px;
+      }
 
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
+      .menu {
+        display: flex;
 
-@keyframes assemble{
-    from{
-        opacity:0;
-        transform:translateY(24px) scale(0.95);
-    }
+        gap: 12px;
 
-    to{
-        opacity:1;
-        transform:translateY(0) scale(1);
-    }
-}
-
-@keyframes float1{
-    0%,100%{
-        transform:translateY(0);
-    }
-
-    50%{
-        transform:translateY(60px);
-    }
-}
-
-@keyframes float2{
-    0%,100%{
-        transform:translateY(0);
-    }
-
-    50%{
-        transform:translateY(-60px);
-    }
-}
-
-.container{
-    width:700px;
-    animation:fadeUp .7s ease;
-}
-
-/* ================= */
-/* NAVBAR */
-/* ================= */
-
-.navbar{
-    background:rgba(13,13,13,.8);
-
-    backdrop-filter:blur(20px);
-
-    border:1px solid #1f1f1f;
-
-    border-radius:20px;
-
-    padding:16px 24px;
-
-    margin-bottom:24px;
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
+        margin-top: 24px;
+      }
 
-.logo{
-    color:#59d6c9;
-
-    font-size:24px;
-    font-weight:bold;
-}
-
-.nav-user{
-    color:#8b949e;
-}
-
-/* ================= */
-/* ПРОФИЛЬ */
-/* ================= */
-
-.profile{
-    background:#0d0d0d;
-
-    border:1px solid #1f1f1f;
-
-    border-radius:24px;
-
-    padding:28px;
-
-    transition:.3s;
-    opacity:0;
-    transform:translateY(20px) scale(0.96);
-    animation:assemble .6s ease-out forwards;
-    animation-delay:.2s;
-}
-
-.profile:hover{
-    transform:translateY(-4px);
-}
-
-.profile-top{
-    display:flex;
-    align-items:center;
-    gap:18px;
-    opacity:0;
-    animation:assemble .5s ease-out forwards;
-    animation-delay:.35s;
-}
+      .menu-btn {
+        flex: 1;
 
-.avatar,
-.name,
-.desc,
-.stats,
-.create-btn,
-.post,
-.empty,
-.post-header{
-    opacity:0;
-    transform:translateY(16px);
-    animation:assemble .5s ease-out forwards;
-}
+        text-decoration: none;
 
-.avatar{
-    animation-delay:.45s;
-}
+        text-align: center;
 
-.name{
-    animation-delay:.55s;
-}
+        padding: 14px;
 
-.desc{
-    animation-delay:.65s;
-}
+        border-radius: 18px;
 
-.stats{
-    animation-delay:.75s;
-}
+        background: #0d0d0d;
 
-.create-btn{
-    animation-delay:.85s;
-}
+        border: 1px solid rgba(255, 255, 255, 0.05);
 
-.post{
-    animation-delay:.95s;
-}
+        color: #cfcfcf;
 
-.post-header{
-    animation-delay:1.05s;
-}
+        transition: 0.25s;
+      }
 
-.empty{
-    animation-delay:1.15s;
-}
+      .menu-btn:hover {
+        background: #59d6c9;
 
-.avatar{
-    width:80px;
-    height:80px;
+        color: black;
+      }
 
-    border-radius:50%;
+      .post {
+        margin-top: 20px;
 
-    background:#59d6c9;
+        background: rgba(13, 13, 13, 0.95);
 
-    color:black;
+        border: 1px solid rgba(89, 214, 201, 0.08);
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
+        border-radius: 24px;
 
-    font-size:32px;
-    font-weight:bold;
-}
+        overflow: hidden;
 
-.name{
-    font-size:32px;
-    font-weight:700;
-}
+        animation: showPost 0.5s ease;
+      }
 
-.desc{
-    color:#8b949e;
-    margin-top:6px;
-}
+      .post-header {
+        display: flex;
 
-.stats{
-    margin-top:20px;
-    color:#8b949e;
-}
+        align-items: center;
 
-.create-btn{
-    display:block;
-    width:100%;
-    justify-content:center;
-    align-items:center;
-    margin-top:20px;
+        gap: 12px;
 
-    background:#59d6c9;
+        padding: 18px;
+      }
 
-    color:black;
+      .post-avatar {
+        width: 48px;
+        height: 48px;
 
-    padding:14px;
+        border-radius: 50%;
 
-    border-radius:16px;
+        background: #59d6c9;
 
-    text-align:center;
+        color: black;
 
-    font-weight:bold;
+        font-weight: 800;
 
-    cursor:pointer;
-    text-decoration:none;
-}
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
 
-/* ================= */
-/* ПОСТ */
-/* ================= */
+      .post-user {
+        font-weight: 700;
+      }
 
-.post{
-    margin-top:24px;
+      .post-text {
+        padding: 0 18px 18px;
 
-    background:#0d0d0d;
+        line-height: 1.7;
 
-    border:1px solid #1f1f1f;
+        color: #e7e7e7;
+      }
 
-    border-radius:24px;
+      .empty {
+        margin-top: 20px;
 
-    overflow:hidden;
-}
+        padding: 40px;
 
-.post-header{
-    padding:18px;
+        text-align: center;
 
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
+        background: #0d0d0d;
 
-.post-avatar{
-    width:42px;
-    height:42px;
+        border-radius: 24px;
 
-    border-radius:50%;
+        color: #888;
+      }
 
-    background:#59d6c9;
+      @keyframes profileShow {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
 
-    color:black;
+      @keyframes avatarShow {
+        from {
+          opacity: 0;
+          transform: scale(0.5);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
+      @keyframes showPost {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
 
-    font-weight:bold;
-}
+  <body>
+    <div class="blur blur1"></div>
+    <div class="blur blur2"></div>
 
-.post-user{
-    font-weight:bold;
-}
+    <div class="container">
+      <div class="navbar">
+        <div class="logo">NOVI <span>✦</span></div>
 
-.post-img{
-    width:100%;
-    height:450px;
-}
+        <a href="/logout" class="nav-logout"> Выйти </a>
+      </div>
 
-.post-img img{
-    width:100%;
-    height:100%;
+      <div class="profile">
+        <div class="cover"></div>
 
-    object-fit:cover;
-}
+        <div class="profile-content">
+          <div class="avatar">{{ nickname[0]|upper }}</div>
 
-.post-text{
-    padding:20px;
-    line-height:1.6;
-}
+          <div class="name">{{ nickname }}</div>
 
-.post-actions{
-    padding:0 20px 20px;
+          <div class="tag">@{{ nickname }}</div>
 
-    display:flex;
-    gap:18px;
+          <div class="desc">Создатель NOVI ✦</div>
 
-    color:#8b949e;
-}
-
-/* ================= */
-/* ПУСТО */
-/* ================= */
-
-.empty{
-    margin-top:24px;
-
-    background:#0d0d0d;
-
-    border:1px solid #1f1f1f;
-
-    border-radius:24px;
-
-    padding:40px;
-
-    text-align:center;
-
-    color:#8b949e;
-}
-</style>
-</head>
-
-<body>
-
-<div class="blur blur1"></div>
-<div class="blur blur2"></div>
-<div class="grid"></div>
-
-<div class="container">
-
-    <div class="navbar">
-        <div class="logo">NOVI ✦</div>
-        <div class="nav-user">{{ nickname }}</div>
-    </div>
-
-    <div class="profile">
-
-        <div class="profile-top">
-
-            <div class="avatar">
-                {{ nickname[0]|upper }}
+          <div class="stats">
+            <div class="stat">
+              <div class="stat-value">{{ posts|length }}</div>
+              <div class="stat-name">Постов</div>
             </div>
 
-            <div>
-
-                <div class="name">
-                    {{ nickname }}
-                </div>
-
-                <div class="desc">
-                    Создатель будущей лучшей соцсети 🚀
-                </div>
-
+            <div class="stat">
+              <div class="stat-value">247</div>
+              <div class="stat-name">Подписчики</div>
             </div>
 
+            <div class="stat">
+              <div class="stat-value">89</div>
+              <div class="stat-name">Подписки</div>
+            </div>
+          </div>
         </div>
+      </div>
 
-        <div class="stats">
-            1 пост · 247 подписчиков · 89 подписок
-        </div>
+      <div class="menu">
+        <a href="/" class="menu-btn"> Лента </a>
 
-        <a href="/post" class="create-btn">
-            Создать пост
-        </a>
+        <a href="/create_post" class="menu-btn"> Создать </a>
+      </div>
 
-    </div>
+      {% if posts %} {% for p in posts %}
 
-    <div class="post">
-
+      <div class="post">
         <div class="post-header">
+          <div class="post-avatar">{{ nickname[0]|upper }}</div>
 
-            <div class="post-avatar">
-                {{ nickname[0]|upper }}
-            </div>
-
-            <div class="post-user">
-                {{ nickname }}
-            </div>
-
+          <div class="post-user">{{ nickname }}</div>
         </div>
 
-        <div class="post-img">
-            <img src="{{ photo_url }}" alt="">
-        </div>
+        <div class="post-text">{{ p[2] }}</div>
+      </div>
 
-        <div class="post-text">
-            🚀 Первый пост в моей новой соцсети. Если ты это видишь — значит ты один из первых пользователей проекта.
-        </div>
+      {% endfor %} {% else %}
 
-        <div class="post-actions">
-            ❤️ 12 &nbsp;&nbsp; 💬 4
-        </div>
+      <div class="empty">У тебя пока нет публикаций</div>
 
+      {% endif %}
     </div>
-
-    <div class="empty">
-        Здесь будут появляться следующие посты
-    </div>
-
-</div>
-
-</body>
+  </body>
 </html>

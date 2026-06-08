@@ -1,122 +1,359 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Создать пост</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>NOVI ✦ | Создать пост</title>
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+
+        background: #000;
+
+        color: white;
+
+        font-family: Arial, sans-serif;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        padding: 30px;
+
+        overflow: hidden;
+      }
+
+      /* ================= */
+      /* ФОН */
+      /* ================= */
+
+      .blur {
+        position: fixed;
+
+        border-radius: 50%;
+
+        filter: blur(150px);
+
+        z-index: -1;
+      }
+
+      .blur1 {
+        width: 400px;
+        height: 400px;
+
+        background: #59d6c9;
+
+        top: -150px;
+        left: -150px;
+
+        opacity: 0.12;
+
+        animation: float1 10s ease-in-out infinite;
+      }
+
+      .blur2 {
+        width: 350px;
+        height: 350px;
+
+        background: #59d6c9;
+
+        bottom: -150px;
+        right: -150px;
+
+        opacity: 0.08;
+
+        animation: float2 12s ease-in-out infinite;
+      }
+
+      /* ================= */
+      /* КАРТОЧКА */
+      /* ================= */
+
+      .page {
+        width: 100%;
+        max-width: 750px;
+
+        background: rgba(15, 15, 15, 0.92);
+
+        backdrop-filter: blur(20px);
+
+        border: 1px solid rgba(89, 214, 201, 0.08);
+
+        border-radius: 32px;
+
+        padding: 35px;
+
+        animation: show 0.6s ease;
+      }
+
+      /* ================= */
+      /* ШАПКА */
+      /* ================= */
+
+      .header {
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+
+        margin-bottom: 30px;
+      }
+
+      .logo {
+        font-size: 30px;
+
+        font-weight: 900;
+
+        letter-spacing: 4px;
+      }
+
+      .logo span {
+        color: #59d6c9;
+
+        text-shadow:
+          0 0 10px rgba(89, 214, 201, 0.8),
+          0 0 30px rgba(89, 214, 201, 0.3);
+      }
+
+      .back-link {
+        text-decoration: none;
+
+        color: #59d6c9;
+
+        font-weight: 700;
+
+        transition: 0.25s;
+      }
+
+      .back-link:hover {
+        transform: translateX(-4px);
+      }
+
+      /* ================= */
+      /* ЗАГОЛОВОК */
+      /* ================= */
+
+      .title {
+        font-size: 34px;
+
+        font-weight: 800;
+
+        margin-bottom: 10px;
+      }
+
+      .subtitle {
+        color: #8b949e;
+
+        margin-bottom: 28px;
+
+        line-height: 1.6;
+      }
+
+      /* ================= */
+      /* ОШИБКА */
+      /* ================= */
+
+      .error {
+        margin-bottom: 18px;
+
+        padding: 15px;
+
+        border-radius: 16px;
+
+        background: rgba(255, 65, 65, 0.1);
+
+        border: 1px solid rgba(255, 65, 65, 0.25);
+
+        color: #ff9f9f;
+      }
+
+      /* ================= */
+      /* ФОРМА */
+      /* ================= */
+
+      .form-card {
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 18px;
+      }
+
+      label {
+        color: #59d6c9;
+
+        font-size: 14px;
+
+        font-weight: 700;
+      }
+
+      textarea {
+        width: 100%;
+
+        min-height: 260px;
+
+        background: #090909;
+
+        border: 1px solid #1f1f1f;
+
+        border-radius: 22px;
+
+        padding: 20px;
+
+        color: white;
+
+        font-size: 16px;
+
+        line-height: 1.7;
+
+        resize: vertical;
+
+        transition: 0.25s;
+      }
+
+      textarea:focus {
+        outline: none;
+
+        border-color: #59d6c9;
+
+        box-shadow:
+          0 0 0 1px rgba(89, 214, 201, 0.3),
+          0 0 25px rgba(89, 214, 201, 0.08);
+      }
+
+      textarea::placeholder {
+        color: #666;
+      }
+
+      /* ================= */
+      /* КНОПКА */
+      /* ================= */
+
+      .submit-btn {
+        padding: 17px;
+
+        border: none;
+
+        border-radius: 18px;
+
+        background: #59d6c9;
+
+        color: black;
+
+        font-size: 16px;
+
+        font-weight: 800;
+
+        cursor: pointer;
+
+        transition: 0.25s;
+      }
+
+      .submit-btn:hover {
+        transform: translateY(-3px);
+
+        box-shadow: 0 10px 30px rgba(89, 214, 201, 0.25);
+      }
+
+      /* ================= */
+      /* АНИМАЦИИ */
+      /* ================= */
+
+      @keyframes show {
+        from {
+          opacity: 0;
+          transform: translateY(25px);
         }
 
-        body {
-            min-height: 100vh;
-            background: #000;
-            color: #fff;
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 32px;
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes float1 {
+        0%,
+        100% {
+          transform: translateY(0);
         }
 
+        50% {
+          transform: translateY(35px);
+        }
+      }
+
+      @keyframes float2 {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+
+        50% {
+          transform: translateY(-35px);
+        }
+      }
+
+      @media (max-width: 700px) {
         .page {
-            width: min(700px, 100%);
-            background: #0d0d0d;
-            border: 1px solid #1f1f1f;
-            border-radius: 28px;
-            padding: 32px;
-            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.25);
+          padding: 25px;
         }
 
         .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 28px;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 10px;
         }
 
-        .header-title {
-            font-size: 28px;
-            font-weight: 700;
-            color: #fff;
+        .title {
+          font-size: 28px;
         }
-
-        .back-link {
-            color: #59d6c9;
-            text-decoration: none;
-            font-weight: 700;
-            white-space: nowrap;
-        }
-
-        .form-card {
-            display: grid;
-            gap: 18px;
-        }
-
-        label {
-            color: #8b949e;
-            font-size: 14px;
-            font-weight: 700;
-        }
-
-        textarea {
-            width: 100%;
-            min-height: 220px;
-            background: #070707;
-            border: 1px solid #1f1f1f;
-            border-radius: 18px;
-            color: #fff;
-            padding: 18px;
-            font-size: 16px;
-            line-height: 1.6;
-            resize: vertical;
-        }
-
-        textarea::placeholder {
-            color: rgba(255, 255, 255, 0.4);
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 16px;
-            border: none;
-            border-radius: 18px;
-            background: #59d6c9;
-            color: #000;
-            font-weight: 700;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .error {
-            padding: 16px;
-            border-radius: 18px;
-            background: rgba(255, 65, 65, 0.12);
-            border: 1px solid rgba(255, 65, 65, 0.25);
-            color: #ffb3b3;
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+
+  <body>
+    <div class="blur blur1"></div>
+    <div class="blur blur2"></div>
+
     <div class="page">
-        <div class="header">
-            <div class="header-title">Создать пост</div>
-            <a href="/profile" class="back-link">← Назад в профиль</a>
-        </div>
+      <div class="header">
+        <div class="logo">NOVI <span>✦</span></div>
 
-        {% if error %}
-            <div class="error">{{ error }}</div>
-        {% endif %}
+        <a href="/profile" class="back-link"> ← Профиль </a>
+      </div>
 
-        <form class="form-card" action="/create_post" method="post">
-            <label for="content">Текст поста</label>
-            <textarea id="content" name="content" placeholder="Расскажи, что сегодня нового..." required></textarea>
-            <button type="submit" class="submit-btn">Опубликовать</button>
-        </form>
+      <div class="title">Создать пост</div>
+
+      <div class="subtitle">
+        Поделись своими мыслями, новостями или расскажи, чем занимаешься
+        сегодня.
+      </div>
+
+      {% if error %}
+      <div class="error">{{ error }}</div>
+      {% endif %}
+
+      <form class="form-card" action="/create_post" method="post">
+        <label for="content"> Текст публикации </label>
+
+        <textarea
+          id="content"
+          name="content"
+          placeholder="Что нового?"
+          required
+        ></textarea>
+
+        <button type="submit" class="submit-btn">Опубликовать</button>
+      </form>
     </div>
-</body>
+  </body>
 </html>

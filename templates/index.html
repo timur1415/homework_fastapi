@@ -3,9 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NOVI ✦ | Регистрация</title>
+    <title>NOVI ✦ | Лента</title>
 
     <style>
+      .auth-btn {
+        text-decoration: none;
+        background: #59d6c9;
+        color: black;
+        padding: 10px 18px;
+        border-radius: 12px;
+        font-weight: 700;
+        transition: 0.25s;
+      }
+
+      .auth-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0 20px rgba(89, 214, 201, 0.25);
+      }
       * {
         margin: 0;
         padding: 0;
@@ -13,54 +27,217 @@
       }
 
       body {
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-family: Arial, sans-serif;
         background: #000;
-        overflow: hidden;
+        color: white;
+        font-family: Arial, sans-serif;
+        min-height: 100vh;
+        overflow-x: hidden;
       }
 
       .blur {
-        position: absolute;
+        position: fixed;
         border-radius: 50%;
-        filter: blur(120px);
-        z-index: 0;
+        filter: blur(150px);
+        z-index: -1;
       }
 
       .blur1 {
-        width: 350px;
-        height: 350px;
-
+        width: 400px;
+        height: 400px;
         background: #59d6c9;
-
-        top: -120px;
-        left: -120px;
-
+        top: -150px;
+        left: -150px;
         opacity: 0.12;
-
-        animation: float1 10s ease-in-out infinite;
       }
 
       .blur2 {
-        width: 300px;
-        height: 300px;
+        width: 350px;
+        height: 350px;
+        background: #59d6c9;
+        bottom: -150px;
+        right: -150px;
+        opacity: 0.08;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 750px;
+        margin: auto;
+        padding: 30px 20px 120px;
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        padding: 20px;
+
+        margin-bottom: 25px;
+
+        background: rgba(15, 15, 15, 0.92);
+
+        border: 1px solid rgba(255, 255, 255, 0.05);
+
+        border-radius: 24px;
+
+        backdrop-filter: blur(20px);
+      }
+
+      .logo {
+        color: white;
+
+        font-size: 30px;
+
+        font-weight: 900;
+
+        letter-spacing: 4px;
+      }
+
+      .logo span {
+        color: #59d6c9;
+
+        text-shadow:
+          0 0 10px rgba(89, 214, 201, 0.8),
+          0 0 30px rgba(89, 214, 201, 0.3);
+      }
+
+      .logout {
+        color: #ff8d8d;
+
+        text-decoration: none;
+
+        font-weight: 700;
+      }
+
+      .feed {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .post {
+        background: rgba(15, 15, 15, 0.95);
+
+        border: 1px solid rgba(89, 214, 201, 0.08);
+
+        border-radius: 26px;
+
+        overflow: hidden;
+
+        transition: 0.3s;
+
+        animation: showPost 0.4s ease;
+      }
+
+      .post:hover {
+        transform: translateY(-4px);
+
+        border-color: rgba(89, 214, 201, 0.25);
+
+        box-shadow: 0 15px 35px rgba(89, 214, 201, 0.08);
+      }
+
+      .post-header {
+        display: flex;
+
+        align-items: center;
+
+        gap: 15px;
+
+        padding: 18px;
+      }
+
+      .post-avatar {
+        width: 54px;
+        height: 54px;
+
+        border-radius: 50%;
 
         background: #59d6c9;
 
-        bottom: -120px;
-        right: -120px;
+        color: black;
 
-        opacity: 0.08;
+        font-size: 20px;
 
-        animation: float2 12s ease-in-out infinite;
+        font-weight: 900;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        box-shadow: 0 0 25px rgba(89, 214, 201, 0.25);
       }
 
-      @keyframes fadeUp {
+      .post-user {
+        font-size: 17px;
+
+        font-weight: 700;
+      }
+
+      .post-date {
+        color: #777;
+        font-size: 13px;
+        margin-top: 3px;
+      }
+
+      .post-text {
+        padding: 0 20px 20px;
+
+        color: #e5e5e5;
+
+        line-height: 1.8;
+
+        font-size: 15px;
+      }
+
+      .menu {
+        position: fixed;
+
+        left: 50%;
+        bottom: 20px;
+
+        transform: translateX(-50%);
+
+        display: flex;
+
+        gap: 8px;
+
+        padding: 10px;
+
+        background: rgba(15, 15, 15, 0.92);
+
+        backdrop-filter: blur(20px);
+
+        border: 1px solid rgba(255, 255, 255, 0.05);
+
+        border-radius: 24px;
+
+        z-index: 100;
+      }
+
+      .menu-btn {
+        text-decoration: none;
+
+        color: #cfcfcf;
+
+        padding: 12px 18px;
+
+        border-radius: 16px;
+
+        transition: 0.25s;
+      }
+
+      .menu-btn:hover {
+        background: #59d6c9;
+
+        color: black;
+      }
+
+      @keyframes showPost {
         from {
           opacity: 0;
-          transform: translateY(40px);
+          transform: translateY(25px);
         }
 
         to {
@@ -69,299 +246,84 @@
         }
       }
 
-      @keyframes glow {
-        0%,
-        100% {
-          box-shadow: 0 0 15px rgba(89, 214, 201, 0.08);
+      @media (max-width: 700px) {
+        .container {
+          padding: 20px 15px 110px;
         }
 
-        50% {
-          box-shadow: 0 0 40px rgba(89, 214, 201, 0.18);
-        }
-      }
-
-      @keyframes float1 {
-        0%,
-        100% {
-          transform: translateY(0);
+        .logo {
+          font-size: 24px;
         }
 
-        50% {
-          transform: translateY(40px);
+        .menu {
+          width: 95%;
+          justify-content: space-around;
         }
-      }
-
-      @keyframes float2 {
-        0%,
-        100% {
-          transform: translateY(0);
-        }
-
-        50% {
-          transform: translateY(-40px);
-        }
-      }
-
-      /* Новый фон: медленно вращающийся конусный градиент */
-      .bg-gradient{
-        position: fixed;
-        inset: 0;
-        z-index: -4;
-        opacity: 0.12;
-        background: conic-gradient(from 90deg at 50% 50%, #0b0f10, #0b1212, #0b0f10, #0b1212);
-        filter: blur(80px) saturate(120%);
-        animation: rotateGradient 30s linear infinite;
-        pointer-events: none;
-      }
-
-      @keyframes rotateGradient{
-        from{transform: rotate(0deg);} 
-        to{transform: rotate(360deg);} 
-      }
-
-      /* Дополнительный тональный слой для глубины */
-      .bg-velvet{
-        position: fixed;
-        inset: 0;
-        z-index: -3;
-        background: radial-gradient(circle at 20% 20%, rgba(89,214,201,0.06), transparent 15%),
-                    radial-gradient(circle at 80% 80%, rgba(89,214,201,0.04), transparent 18%);
-        pointer-events: none;
-      }
-
-      @keyframes starGlow {
-        0%,
-        100% {
-          opacity: 0.7;
-          text-shadow: 0 0 10px rgba(89, 214, 201, 0.3);
-        }
-
-        50% {
-          opacity: 1;
-          text-shadow:
-            0 0 25px rgba(89, 214, 201, 0.8),
-            0 0 40px rgba(89, 214, 201, 0.4);
-        }
-      }
-
-      @keyframes shake {
-        0%,
-        100% {
-          transform: translateX(0);
-        }
-
-        20% {
-          transform: translateX(-8px);
-        }
-
-        40% {
-          transform: translateX(8px);
-        }
-
-        60% {
-          transform: translateX(-8px);
-        }
-
-        80% {
-          transform: translateX(8px);
-        }
-      }
-
-      .card {
-        width: 380px;
-        position: relative;
-        z-index: 2;
-
-        background: rgba(12, 12, 12, 0.92);
-        backdrop-filter: blur(20px);
-
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 28px;
-
-        padding: 34px;
-
-        animation:
-          fadeUp 0.8s ease,
-          glow 5s infinite;
-
-        transition: 0.35s;
-      }
-
-      .card:hover {
-        transform: translateY(-5px) scale(1.01);
-      }
-
-      .logo {
-        text-align: center;
-        font-size: 42px;
-        font-weight: 800;
-        letter-spacing: 4px;
-        color: white;
-        margin-bottom: 8px;
-      }
-
-      .logo span {
-        color: #59d6c9;
-        animation: starGlow 3s infinite;
-      }
-
-      .subtitle {
-        text-align: center;
-        color: #8b949e;
-        font-size: 14px;
-        margin-bottom: 28px;
-      }
-
-      h1 {
-        text-align: center;
-        color: white;
-        margin-bottom: 12px;
-        font-size: 30px;
-      }
-
-      .line {
-        width: 60px;
-        height: 4px;
-        border-radius: 999px;
-        background: #59d6c9;
-        margin: 0 auto 24px auto;
-      }
-
-      .error {
-        margin-bottom: 15px;
-        padding: 12px;
-
-        border-radius: 12px;
-
-        background: rgba(255, 70, 70, 0.12);
-
-        border: 1px solid rgba(255, 70, 70, 0.3);
-
-        color: #ff7a7a;
-
-        text-align: center;
-
-        font-size: 14px;
-
-        animation: shake 0.5s ease;
-      }
-
-      form {
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-      }
-
-      input {
-        width: 100%;
-
-        padding: 15px;
-
-        border: none;
-
-        border-radius: 14px;
-
-        outline: none;
-
-        background: #131313;
-
-        color: white;
-
-        font-size: 15px;
-
-        transition: 0.25s;
-      }
-
-      input:focus {
-        transform: scale(1.02);
-
-        background: #181818;
-
-        box-shadow: 0 0 0 2px rgba(89, 214, 201, 0.25);
-      }
-
-      input::placeholder {
-        color: #6b7280;
-      }
-
-      input:focus {
-        background: #181818;
-        box-shadow: 0 0 0 2px rgba(89, 214, 201, 0.25);
-      }
-
-      button {
-        width: 100%;
-
-        padding: 15px;
-
-        border: none;
-
-        border-radius: 14px;
-
-        cursor: pointer;
-
-        font-size: 15px;
-
-        font-weight: bold;
-
-        background: #59d6c9;
-
-        color: black;
-
-        transition: 0.25s;
-      }
-
-      button:hover {
-        transform: translateY(-3px) scale(1.02);
-
-        box-shadow: 0 10px 25px rgba(89, 214, 201, 0.25);
-      }
-
-      a {
-        display: block;
-        text-align: center;
-        margin-top: 18px;
-        color: #8b949e;
-        text-decoration: none;
-      }
-
-      a:hover {
-        color: #59d6c9;
       }
     </style>
   </head>
-
   <body>
     <div class="blur blur1"></div>
     <div class="blur blur2"></div>
-    <div class="bg-gradient"></div>
-    <div class="bg-velvet"></div>
 
-    <div class="card">
-      <div class="logo">NOVI <span>✦</span></div>
+    <div class="container">
+      <div class="navbar">
+        <div class="logo">NOVI <span>✦</span></div>
 
-      <div class="subtitle">Делись, создавай 🌍</div>
+        {% if request.session.nickname %}
 
-      <h1>Вход</h1>
+        <a href="/logout" class="logout"> Выйти </a>
 
-      <div class="line"></div>
+        {% else %}
 
-      {% if error %}
-      <div class="error">{{ error }}</div>
-      {% endif %}
+        <a href="/login" class="auth-btn"> Войти </a>
 
-      <form action="/login" method="post">
-        <input type="text" name="nickname" placeholder="Nickname" required />
+        {% endif %}
+      </div>
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Пароль"
-        />
-        <button type="submit">Войти</button>
-      </form>
+      <div class="feed">
+        {% if posts %} {% for post in posts %}
 
-      <a href="/signup">Еще не зарегистрированы?</a>
+        <div class="post">
+          <div class="post-header">
+            <div class="post-avatar">{{ post[1][0]|upper }}</div>
+
+            <div>
+              <div class="post-user">{{ post[1] }}</div>
+
+              <div class="post-date">{{ post[3] }}</div>
+            </div>
+          </div>
+
+          <div class="post-text">{{ post[2] }}</div>
+        </div>
+
+        {% endfor %} {% else %}
+
+        <div class="post">
+          <div class="post-header">
+            <div class="post-avatar">N</div>
+
+            <div>
+              <div class="post-user">NOVI</div>
+
+              <div class="post-date">первая публикация</div>
+            </div>
+          </div>
+
+          <div class="post-text">
+            Добро пожаловать в NOVI ✦ Здесь скоро появятся посты пользователей.
+          </div>
+        </div>
+
+        {% endif %}
+      </div>
     </div>
-  </body>
+
+    <div class="menu">
+      <a href="/post" class="menu-btn"> Создать </a>
+
+      <a href="/profile" class="menu-btn"> Профиль </a>
+    </div>
+  </body> 
 </html>

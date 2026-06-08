@@ -340,9 +340,9 @@
     <div class="card">
       <div class="logo">NOVI <span>✦</span></div>
 
-      <div class="subtitle">Исследуй новый мир 🌍</div>
+      <div class="subtitle">Делись, создавай 🌍</div>
 
-      <h1>Регистрация</h1>
+      <h1>Вход</h1>
 
       <div class="line"></div>
 
@@ -350,7 +350,7 @@
       <div class="error">{{ error }}</div>
       {% endif %}
 
-      <form action="/signup/processing" method="post">
+      <form action="/login/processing" method="post">
         <input type="text" name="nickname" placeholder="Nickname" required />
 
         <input
@@ -358,10 +358,10 @@
           name="password"
           placeholder="Пароль"
         />
-        <button type="submit">Создать аккаунт</button>
+        <button type="submit">Войти</button>
       </form>
 
-      <a href="/login">Уже есть аккаунт?</a>
+      <a href="/signup">Еще не зарегистрированы?</a>
     </div>
   </body>
 </html>

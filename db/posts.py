@@ -14,7 +14,7 @@ async def add_post(author, content):
         await db.commit()
 
 
-async def get_post(author: str, content: str):
+async def get_post():
     async with aiosqlite.connect(DB_PATH) as db:
         cursor = await db.execute(
             "SELECT * FROM posts ORDER BY id DESC",

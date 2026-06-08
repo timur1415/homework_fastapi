@@ -4,7 +4,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from db.users import add_user, init_db, user_exists, get_user
 from starlette.middleware.sessions import SessionMiddleware
-from db.posts import add_post
+from db.posts import add_post, get_post
 
 
 templates = Jinja2Templates(directory="templates")
@@ -25,7 +25,12 @@ app.mount("/static", StaticFiles(directory="static"))
 
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    posts = await get_post()
+
+    return templates.TemplateResponse(
+        "index.html",
+        {"request": request, "posts": posts},
+    )
 
 
 @app.get("/signup", response_class=HTMLResponse)
@@ -65,7 +70,12 @@ async def create_account(
     return RedirectResponse("/profile", status_code=302)
 
 
-@app.post("/login")
+@app.get("/login", response_class=HTMLResponse)
+async def loggin(request: Request):
+    return templates.TemplateResponse("login.html", {"request": request})
+
+
+@app.post("/login/processing")
 async def login(request: Request, nickname: str = Form(...), password: str = Form(...)):
     user = await get_user(nickname)
 
@@ -92,26 +102,54 @@ async def login(request: Request, nickname: str = Form(...), password: str = For
     return RedirectResponse("/profile", status_code=302)
 
 
+@app.get("/logout")
+async def logout(request: Request):
+    request.session.clear()
+    return RedirectResponse("/", status_code=302)
+
+
 @app.get("/profile")
 async def profile(request: Request):
 
     nickname = request.session.get("nickname")
 
     if not nickname:
-        return RedirectResponse("/")
+        return templates.TemplateResponse("need_login.html", {"request": request})
+
+    # передаём посты пользователя в профиль (по умолчанию берём все записи из БД)
+    posts = await get_post()
+    user_posts = [p for p in posts if p[1] == nickname]
 
     return templates.TemplateResponse(
         "profile.html",
-        {"request": request, "nickname": nickname, "photo_url": "/static/photo.jpg"},
+        {
+            "request": request,
+            "nickname": nickname,
+            "photo_url": "/static/photo.jpg",
+            "posts": user_posts,
+        },
     )
 
 
 @app.get("/post")
 async def post(request: Request):
+    nickname = request.session.get("nickname")
+    if not nickname:
+        return templates.TemplateResponse("need_login.html", {"request": request})
+
     return templates.TemplateResponse(
         "post.html",
-        {"request": request},
+        {"request": request, "nickname": nickname},
     )
+
+
+@app.get("/create_post")
+async def create_post_page(request: Request):
+    nickname = request.session.get("nickname")
+    if not nickname:
+        return templates.TemplateResponse("need_login.html", {"request": request})
+
+    return templates.TemplateResponse("post.html", {"request": request, "nickname": nickname})
 
 
 @app.post("/create_post")
@@ -119,8 +157,7 @@ async def create_post_post(request: Request, content: str = Form(...)):
     nickname = request.session.get("nickname")
 
     if not nickname:
-        RedirectResponse('/')
+        return RedirectResponse("/", status_code=302)
 
     await add_post(nickname, content)
     return RedirectResponse("/profile", status_code=302)
-
