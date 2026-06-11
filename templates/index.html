@@ -295,12 +295,13 @@
             </div>
           </div>
 
-          <div class="post-text">{{ post[2] }}</div>
           {% if post|length > 5 and post[5] %}
-          <div style="padding: 0 20px 20px;">
-            <img src="{{ post[5] }}" alt="post image" style="max-width:100%; border-radius:12px;" />
+          <div style="padding: 0 20px 12px;">
+            <img src="{{ post[5] }}" alt="post image" style="max-width:100%; border-radius:12px; display:block;" />
           </div>
           {% endif %}
+
+          <div class="post-text">{{ post[2] }}</div>
         </div>
 
         {% endfor %} {% else %}

@@ -164,7 +164,9 @@ async def create_post_page(request: Request):
 
 
 @app.post("/create_post")
-async def create_post_post(request: Request, content: str = Form(...), image: UploadFile = File(None)):
+async def create_post_post(
+    request: Request, content: str = Form(...), image: UploadFile = File(None)
+):
     nickname = request.session.get("nickname")
 
     if not nickname:

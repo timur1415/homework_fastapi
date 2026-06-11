@@ -456,9 +456,7 @@
               name="bio"
               rows="5"
               placeholder="Например: Создатель NOVI ✦"
-            >
-{{ bio }}</textarea
-            >
+            >{{ bio }}</textarea>
           </div>
 
           <button type="submit" class="save-btn">Сохранить изменения</button>
@@ -467,52 +465,55 @@
     </div>
 
     <script>
+      // Initialize avatar selector on page load
+      const trigger = document.getElementById("avatarTrigger");
+      const dropdown = document.getElementById("avatarDropdown");
+      const selected = document.getElementById("selectedAvatar");
       const avatarPreview = document.querySelector(".avatar-preview");
 
-      function updatePreview() {
+      // Initialize preview with checked avatar
+      function initializePreview() {
         const checked = document.querySelector("input[name='avatar']:checked");
-
         if (checked) {
-          avatarPreview.textContent = checked.value;
+          const value = checked.value;
+          selected.textContent = value;
+          avatarPreview.textContent = value;
         }
+        updateSelection();
+      }
 
+      // Update visual selection state
+      function updateSelection() {
         document.querySelectorAll(".emoji-choice").forEach((label) => {
           const radio = label.querySelector("input");
-
           label.classList.toggle("selected", radio.checked);
         });
       }
 
-      document.querySelectorAll("input[name='avatar']").forEach((radio) => {
-        radio.addEventListener("change", updatePreview);
-      });
-
-      updatePreview();
-    </script>
-    <script>
-      const trigger = document.getElementById("avatarTrigger");
-      const dropdown = document.getElementById("avatarDropdown");
-      const selected = document.getElementById("selectedAvatar");
-
+      // Dropdown toggle
       trigger.onclick = () => {
         dropdown.classList.toggle("active");
       };
 
+      // Handle avatar selection
       document.querySelectorAll('input[name="avatar"]').forEach((input) => {
         input.addEventListener("change", () => {
           selected.textContent = input.value;
-
-          document.querySelector(".avatar-preview").textContent = input.value;
-
+          avatarPreview.textContent = input.value;
+          updateSelection();
           dropdown.classList.remove("active");
         });
       });
 
+      // Close dropdown on outside click
       document.addEventListener("click", (e) => {
         if (!trigger.contains(e.target) && !dropdown.contains(e.target)) {
           dropdown.classList.remove("active");
         }
       });
+
+      // Initialize on page load
+      initializePreview();
     </script>
   </body>
 </html>

@@ -71,14 +71,8 @@ async def get_user(nickname: str):
     
 async def update_user(nickname: str, bio: str, avatar: str = None):
     async with aiosqlite.connect(DB_PATH) as db:
-        if avatar:
-            await db.execute(
-                "UPDATE users SET bio = ?, avatar = ? WHERE nickname = ?",
-                (bio, avatar, nickname),
-            )
-        else:
-            await db.execute(
-                "UPDATE users SET bio = ? WHERE nickname = ?",
-                (bio, nickname),
-            )
+        await db.execute(
+            "UPDATE users SET bio = ?, avatar = ? WHERE nickname = ?",
+            (bio, avatar or "😊", nickname),
+        )
         await db.commit()

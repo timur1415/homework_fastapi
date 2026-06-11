@@ -24,11 +24,11 @@
 
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: flex-start;
 
-        padding: 30px;
+        padding: 30px 30px;
 
-        overflow: hidden;
+        overflow-y: auto;
       }
 
       /* ================= */
@@ -343,20 +343,69 @@
       {% endif %}
 
       <form class="form-card" action="/create_post" method="post" enctype="multipart/form-data">
-        <label for="content"> Текст публикации </label>
+        <label for="image"> Фото (перетащите сюда или нажмите)</label>
+
+        <div id="dropzone" style="border:1px dashed rgba(255,255,255,0.08); padding:18px; border-radius:12px; display:flex; flex-direction:column; gap:12px; align-items:center; justify-content:center; background:rgba(255,255,255,0.01);">
+          <div id="dropLabel" style="color:#9aa0a6;">Перетащите файл сюда или кликните, чтобы выбрать</div>
+          <img id="preview" src="" alt="preview" style="max-width:100%; display:none; border-radius:12px;" />
+          <input type="file" id="image" name="image" accept="image/*" style="display:none;" />
+        </div>
+
+        <label for="content"> Описание (дескриптион) </label>
 
         <textarea
           id="content"
           name="content"
-          placeholder="Что нового?"
+          placeholder="Напиши описание к фото..."
           required
         ></textarea>
 
-        <label for="image"> Загрузить фото (опционально) </label>
-        <input type="file" id="image" name="image" accept="image/*" />
-
         <button type="submit" class="submit-btn">Опубликовать</button>
       </form>
+
+    <script>
+      // Drag & drop + preview for image upload
+      (function(){
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('image');
+        const preview = document.getElementById('preview');
+        const dropLabel = document.getElementById('dropLabel');
+
+        function showPreview(file){
+          if(!file) return;
+          preview.src = URL.createObjectURL(file);
+          preview.style.display = 'block';
+          dropLabel.style.display = 'none';
+        }
+
+        dropzone.addEventListener('click', () => fileInput.click());
+
+        dropzone.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          dropzone.style.borderColor = '#59d6c9';
+        });
+
+        dropzone.addEventListener('dragleave', (e) => {
+          e.preventDefault();
+          dropzone.style.borderColor = 'rgba(255,255,255,0.08)';
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+          e.preventDefault();
+          dropzone.style.borderColor = 'rgba(255,255,255,0.08)';
+          const files = e.dataTransfer.files;
+          if(files && files.length){
+            fileInput.files = files;
+            showPreview(files[0]);
+          }
+        });
+
+        fileInput.addEventListener('change', () => {
+          const f = fileInput.files && fileInput.files[0];
+          if(f) showPreview(f);
+        });
+      })();
+    </script>
     </div>
   </body>
 </html>
