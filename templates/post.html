@@ -342,7 +342,7 @@
       <div class="error">{{ error }}</div>
       {% endif %}
 
-      <form class="form-card" action="/create_post" method="post">
+      <form class="form-card" action="/create_post" method="post" enctype="multipart/form-data">
         <label for="content"> Текст публикации </label>
 
         <textarea
@@ -351,6 +351,9 @@
           placeholder="Что нового?"
           required
         ></textarea>
+
+        <label for="image"> Загрузить фото (опционально) </label>
+        <input type="file" id="image" name="image" accept="image/*" />
 
         <button type="submit" class="submit-btn">Опубликовать</button>
       </form>

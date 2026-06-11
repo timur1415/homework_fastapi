@@ -286,7 +286,7 @@
 
         <div class="post">
           <div class="post-header">
-            <div class="post-avatar">{{ post[1][0]|upper }}</div>
+            <div class="post-avatar">{% if post|length > 4 and post[4] %}{{ post[4] }}{% else %}{{ post[1][0]|upper }}{% endif %}</div>
 
             <div>
               <div class="post-user">{{ post[1] }}</div>
@@ -296,6 +296,11 @@
           </div>
 
           <div class="post-text">{{ post[2] }}</div>
+          {% if post|length > 5 and post[5] %}
+          <div style="padding: 0 20px 20px;">
+            <img src="{{ post[5] }}" alt="post image" style="max-width:100%; border-radius:12px;" />
+          </div>
+          {% endif %}
         </div>
 
         {% endfor %} {% else %}

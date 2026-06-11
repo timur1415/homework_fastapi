@@ -162,6 +162,35 @@
         color: #9aa0a6;
         margin-top: 14px;
       }
+
+      .action-row {
+        display: flex;
+        justify-content: center;
+        margin-top: 22px;
+      }
+
+      .edit-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 12px 24px;
+        border-radius: 999px;
+        border: 1px solid rgba(89, 214, 201, 0.24);
+        background: linear-gradient(135deg, rgba(89, 214, 201, 0.18), rgba(255, 255, 255, 0.05));
+        color: #e7fdf9;
+        font-weight: 700;
+        text-decoration: none;
+        transition: 0.25s ease;
+        box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
+      }
+
+      .edit-btn:hover {
+        background: rgba(89, 214, 201, 0.36);
+        color: #0d0d0d;
+        transform: translateY(-1px);
+      }
+
       .stats {
         display: flex;
 
@@ -343,13 +372,17 @@
         <div class="cover"></div>
 
         <div class="profile-content">
-          <div class="avatar">{{ nickname[0]|upper }}</div>
+          <div class="avatar">{{ avatar }}</div>
 
           <div class="name">{{ nickname }}</div>
 
           <div class="tag">@{{ nickname }}</div>
 
-          <div class="desc">Создатель NOVI ✦</div>
+          <div class="desc">{{ bio }}</div>
+
+          <div class="action-row">
+            <a href="/edit_profile" class="edit-btn">✎ Редактировать профиль</a>
+          </div>
 
           <div class="stats">
             <div class="stat">
@@ -380,12 +413,17 @@
 
       <div class="post">
         <div class="post-header">
-          <div class="post-avatar">{{ nickname[0]|upper }}</div>
+          <div class="post-avatar">{% if p|length > 4 and p[4] %}{{ p[4] }}{% else %}{{ nickname[0]|upper }}{% endif %}</div>
 
           <div class="post-user">{{ nickname }}</div>
         </div>
 
         <div class="post-text">{{ p[2] }}</div>
+        {% if p|length > 5 and p[5] %}
+        <div style="padding: 0 18px 18px;">
+          <img src="{{ p[5] }}" alt="post image" style="max-width:100%; border-radius:12px;" />
+        </div>
+        {% endif %}
       </div>
 
       {% endfor %} {% else %}

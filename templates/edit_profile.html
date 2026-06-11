@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>NOVI ✦ | Редактировать профиль</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      .avatar-selector {
+        position: relative;
+      }
+
+      .avatar-trigger {
+        width: 100%;
+        height: 64px;
+
+        background: #111;
+
+        border: 1px solid rgba(89, 214, 201, 0.2);
+
+        border-radius: 18px;
+
+        color: white;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        padding: 0 20px;
+
+        font-size: 28px;
+
+        cursor: pointer;
+      }
+
+      .avatar-trigger:hover {
+        border-color: #59d6c9;
+      }
+
+      .avatar-dropdown {
+        display: none;
+
+        position: absolute;
+
+        top: 75px;
+        left: 0;
+
+        width: 100%;
+
+        padding: 15px;
+
+        background: #111;
+
+        border: 1px solid rgba(89, 214, 201, 0.15);
+
+        border-radius: 20px;
+
+        z-index: 100;
+
+        grid-template-columns: repeat(8, 1fr);
+
+        gap: 10px;
+      }
+
+      .avatar-dropdown.active {
+        display: grid;
+      }
+
+      .avatar-option {
+        height: 50px;
+
+        border-radius: 12px;
+
+        background: #181818;
+
+        cursor: pointer;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 26px;
+
+        transition: 0.2s;
+      }
+
+      .avatar-option:hover {
+        background: #59d6c9;
+        transform: scale(1.08);
+      }
+
+      .avatar-option input {
+        display: none;
+      }
+
+      body {
+        min-height: 100vh;
+        background: #000;
+        font-family: Arial, sans-serif;
+        color: white;
+        overflow-x: hidden;
+      }
+
+      .blur {
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(150px);
+        z-index: -1;
+      }
+
+      .blur1 {
+        width: 400px;
+        height: 400px;
+        background: #59d6c9;
+        top: -150px;
+        left: -150px;
+        opacity: 0.12;
+        animation: float1 10s ease-in-out infinite;
+      }
+
+      .blur2 {
+        width: 350px;
+        height: 350px;
+        background: #59d6c9;
+        bottom: -150px;
+        right: -150px;
+        opacity: 0.08;
+        animation: float2 12s ease-in-out infinite;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: auto;
+        padding: 30px 20px;
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        padding: 20px;
+
+        background: rgba(15, 15, 15, 0.92);
+
+        border: 1px solid rgba(255, 255, 255, 0.05);
+
+        border-radius: 24px;
+
+        backdrop-filter: blur(20px);
+
+        margin-bottom: 25px;
+      }
+
+      .logo {
+        font-size: 30px;
+        font-weight: 900;
+        letter-spacing: 4px;
+      }
+
+      .logo span {
+        color: #59d6c9;
+        text-shadow:
+          0 0 10px rgba(89, 214, 201, 0.8),
+          0 0 30px rgba(89, 214, 201, 0.3);
+      }
+
+      .nav-logout {
+        text-decoration: none;
+        color: #59d6c9;
+        font-weight: 700;
+      }
+
+      .card {
+        background: rgba(15, 15, 15, 0.95);
+
+        border: 1px solid rgba(89, 214, 201, 0.08);
+
+        border-radius: 28px;
+
+        padding: 30px;
+
+        animation: profileShow 0.4s ease;
+      }
+
+      .card-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 25px;
+      }
+
+      .card-title {
+        font-size: 32px;
+        font-weight: 800;
+      }
+
+      .card-subtitle {
+        margin-top: 8px;
+        color: #8b949e;
+        line-height: 1.6;
+      }
+
+      .avatar-preview {
+        width: 90px;
+        height: 90px;
+
+        border-radius: 50%;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        font-size: 42px;
+
+        background: rgba(89, 214, 201, 0.12);
+
+        border: 2px solid rgba(89, 214, 201, 0.35);
+
+        box-shadow: 0 0 40px rgba(89, 214, 201, 0.15);
+      }
+
+      .form-group {
+        margin-bottom: 24px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: 700;
+        color: #59d6c9;
+      }
+
+      .emoji-picker {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+        gap: 12px;
+      }
+
+      .emoji-choice {
+        position: relative;
+
+        height: 60px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        font-size: 28px;
+
+        border-radius: 18px;
+
+        cursor: pointer;
+
+        background: rgba(255, 255, 255, 0.03);
+
+        border: 1px solid rgba(255, 255, 255, 0.05);
+
+        transition: 0.25s;
+      }
+
+      .emoji-choice:hover {
+        transform: translateY(-3px);
+        border-color: #59d6c9;
+        background: rgba(89, 214, 201, 0.12);
+      }
+
+      .emoji-choice.selected {
+        background: rgba(89, 214, 201, 0.18);
+        border-color: #59d6c9;
+        box-shadow: 0 0 25px rgba(89, 214, 201, 0.25);
+      }
+
+      .emoji-choice input {
+        display: none;
+      }
+      .help-text {
+        color: #9aa0a6;
+        margin: 18px 0;
+        line-height: 1.6;
+      }
+
+      .error {
+        color: #ff8c8c;
+        margin-bottom: 18px;
+        min-height: 24px;
+      }
+
+      textarea {
+        width: 100%;
+
+        padding: 18px;
+
+        background: rgba(255, 255, 255, 0.03);
+
+        border: 1px solid rgba(255, 255, 255, 0.05);
+
+        border-radius: 18px;
+
+        color: white;
+
+        font-size: 15px;
+
+        resize: none;
+
+        transition: 0.25s;
+      }
+
+      textarea:focus {
+        outline: none;
+        border-color: #59d6c9;
+        background: rgba(89, 214, 201, 0.08);
+      }
+
+      textarea::placeholder {
+        color: #777;
+      }
+
+      .save-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+
+        padding: 14px 24px;
+
+        border-radius: 999px;
+
+        border: 1px solid rgba(89, 214, 201, 0.24);
+
+        background: linear-gradient(
+          135deg,
+          rgba(89, 214, 201, 0.18),
+          rgba(255, 255, 255, 0.05)
+        );
+
+        color: #e7fdf9;
+
+        font-weight: 700;
+
+        cursor: pointer;
+
+        transition: 0.25s;
+      }
+
+      .save-btn:hover {
+        background: rgba(89, 214, 201, 0.36);
+        color: #0d0d0d;
+        transform: translateY(-2px);
+      }
+
+      @keyframes profileShow {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes float1 {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(30px);
+        }
+      }
+
+      @keyframes float2 {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-30px);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="blur blur1"></div>
+    <div class="blur blur2"></div>
+
+    <div class="container">
+      <div class="navbar">
+        <div class="logo">NOVI <span>✦</span></div>
+        <a href="/profile" class="nav-logout">Назад</a>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Редактировать профиль</div>
+            <div class="card-subtitle">Настрой свой профиль NOVI</div>
+          </div>
+
+          <div class="avatar-preview">{{ avatar }}</div>
+        </div>
+
+        <div class="help-text">Выбери аватар и расскажи немного о себе.</div>
+
+        <div class="error">{% if error %}{{ error }}{% endif %}</div>
+
+        <form action="/edit_profile/processing" method="post">
+          <input type="hidden" name="current_avatar" value="{{ avatar }}" />
+
+          <div class="form-group">
+            <label>Аватар</label>
+
+            <div class="avatar-selector">
+              <button type="button" class="avatar-trigger" id="avatarTrigger">
+                <span id="selectedAvatar">{{ avatar }}</span>
+                <span>▼</span>
+              </button>
+
+              <div class="avatar-dropdown" id="avatarDropdown">
+                {% for emoji in [
+                '😀','😎','😉','😁','🤓','🥶','😈','🤖','👽','👻',
+                '🚀','💎','🔥','⚡','⭐','✨','🌙','☄️','🌌','💫',
+                '🎮','🕹️','🏆','🎯','🎧','📷','💻','🛰️',
+                '🐺','🦊','🐻','🦁','🦅','🦈','🐱','🐼','🦉','🐲',
+                '🍀','🌊','👑','💪','🏀','⚽' ] %}
+
+                <label class="avatar-option emoji-choice">
+                  <input
+                    type="radio"
+                    name="avatar"
+                    value="{{ emoji }}" {% if avatar == emoji %}checked{% endif %} />
+
+                  {{ emoji }}
+                </label>
+
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="bio"> О себе </label>
+
+            <textarea
+              id="bio"
+              name="bio"
+              rows="5"
+              placeholder="Например: Создатель NOVI ✦"
+            >
+{{ bio }}</textarea
+            >
+          </div>
+
+          <button type="submit" class="save-btn">Сохранить изменения</button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      const avatarPreview = document.querySelector(".avatar-preview");
+
+      function updatePreview() {
+        const checked = document.querySelector("input[name='avatar']:checked");
+
+        if (checked) {
+          avatarPreview.textContent = checked.value;
+        }
+
+        document.querySelectorAll(".emoji-choice").forEach((label) => {
+          const radio = label.querySelector("input");
+
+          label.classList.toggle("selected", radio.checked);
+        });
+      }
+
+      document.querySelectorAll("input[name='avatar']").forEach((radio) => {
+        radio.addEventListener("change", updatePreview);
+      });
+
+      updatePreview();
+    </script>
+    <script>
+      const trigger = document.getElementById("avatarTrigger");
+      const dropdown = document.getElementById("avatarDropdown");
+      const selected = document.getElementById("selectedAvatar");
+
+      trigger.onclick = () => {
+        dropdown.classList.toggle("active");
+      };
+
+      document.querySelectorAll('input[name="avatar"]').forEach((input) => {
+        input.addEventListener("change", () => {
+          selected.textContent = input.value;
+
+          document.querySelector(".avatar-preview").textContent = input.value;
+
+          dropdown.classList.remove("active");
+        });
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!trigger.contains(e.target) && !dropdown.contains(e.target)) {
+          dropdown.classList.remove("active");
+        }
+      });
+    </script>
+  </body>
+</html>
