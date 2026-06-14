@@ -260,6 +260,58 @@
           justify-content: space-around;
         }
       }
+      .post-image {
+        width: 100%;
+        max-height: 500px;
+        object-fit: cover;
+        border-radius: 12px;
+        display: block;
+}
+
+      .profile-header {
+        display: flex;
+
+        align-items: center;
+
+        gap: 20px;
+
+        padding: 20px;
+      }
+
+      .profile-avatar {
+        width: 80px;
+        height: 80px;
+
+        border-radius: 50%;
+
+        background: #59d6c9;
+
+        color: black;
+
+        font-size: 30px;
+
+        font-weight: 900;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        box-shadow: 0 0 25px rgba(89, 214, 201, 0.25);
+      }
+
+      .profile-name {
+        font-size: 22px;
+
+        font-weight: 700;
+      }
+
+      .profile-stats {
+        display: flex;
+
+        gap: 30px;
+
+        margin-top: 20px;
+      }
     </style>
   </head>
   <body>
@@ -271,39 +323,32 @@
         <div class="logo">NOVI <span>✦</span></div>
 
         {% if request.session.nickname %}
-
-        <a href="/logout" class="logout"> Выйти </a>
-
+        <a href="/logout" class="logout">Выйти</a>
         {% else %}
-
-        <a href="/login" class="auth-btn"> Войти </a>
-
+        <a href="/login" class="auth-btn">Войти</a>
         {% endif %}
       </div>
 
       <div class="feed">
         {% if posts %} {% for post in posts %}
-
         <div class="post">
           <div class="post-header">
-            <div class="post-avatar">{% if post|length > 4 and post[4] %}{{ post[4] }}{% else %}{{ post[1][0]|upper }}{% endif %}</div>
+            <div class="post-avatar">{{ post.author[0]|upper }}</div>
 
             <div>
-              <div class="post-user">{{ post[1] }}</div>
-
-              <div class="post-date">{{ post[3] }}</div>
+              <div class="post-user">{{ post.author }}</div>
             </div>
           </div>
 
-          {% if post|length > 5 and post[5] %}
-          <div style="padding: 0 20px 12px;">
-            <img src="{{ post[5] }}" alt="post image" style="max-width:100%; border-radius:12px; display:block;" />
-          </div>
+          {% if post.image %} <img
+            src="{{ post.image }}"
+            alt="post image"
+            class="post-image"
+          />
           {% endif %}
 
-          <div class="post-text">{{ post[2] }}</div>
+          <div class="post-text">{{ post.content }}</div>
         </div>
-
         {% endfor %} {% else %}
 
         <div class="post">
@@ -312,7 +357,6 @@
 
             <div>
               <div class="post-user">NOVI</div>
-
               <div class="post-date">первая публикация</div>
             </div>
           </div>
@@ -327,9 +371,8 @@
     </div>
 
     <div class="menu">
-      <a href="/post" class="menu-btn"> Создать </a>
-
-      <a href="/profile" class="menu-btn"> Профиль </a>
+      <a href="/post" class="menu-btn">Создать</a>
+      <a href="/profile" class="menu-btn">Профиль</a>
     </div>
-  </body> 
+  </body>
 </html>

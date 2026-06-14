@@ -7,10 +7,10 @@ from fastapi import FastAPI, Request, Form, UploadFile, File
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
-from db.users import add_user, init_db, user_exists, get_user, update_user
 from starlette.middleware.sessions import SessionMiddleware
-from db.posts import add_post, get_post
-
+from db.db import init_db
+from db.user_crud import update_user, get_user, user_exsists, add_user, get_user_by_nickname
+from db.post_crud import get_post, add_post
 
 templates = Jinja2Templates(directory="templates")
 
@@ -23,7 +23,6 @@ app.add_middleware(SessionMiddleware, secret_key="novi_secret_key")
 @app.on_event("startup")
 async def startup():
     await init_db()
-
 
 app.mount("/static", StaticFiles(directory="static"))
 
@@ -50,7 +49,7 @@ async def create_account(
     print(nickname)
     print(password)
 
-    if await user_exists(nickname):
+    if await user_exsists(nickname):
         return templates.TemplateResponse(
             "signup.html",
             {
@@ -82,20 +81,20 @@ async def loggin(request: Request):
 
 @app.post("/login/processing")
 async def login(request: Request, nickname: str = Form(...), password: str = Form(...)):
-    user = await get_user(nickname)
+    user = await get_user_by_nickname(nickname)
 
     if user is None:
         return templates.TemplateResponse(
-            "index.html",
+            "login.html",
             {
                 "request": request,
                 "error": "Пользователь не найден",
             },
         )
 
-    if user[1] != password:
+    if user.password != password:
         return templates.TemplateResponse(
-            "index.html",
+            "login.html",
             {
                 "request": request,
                 "error": "Неверный пароль",
@@ -122,10 +121,13 @@ async def profile(request: Request):
         return templates.TemplateResponse("need_login.html", {"request": request})
 
     posts = await get_post()
-    user_posts = [p for p in posts if p[1] == nickname]
-    user = await get_user(nickname)
-    bio = user[3] if user and len(user) > 3 else "Создатель NOVI ✦"
-    avatar = user[4] if user and len(user) > 4 else "😊"
+
+    user_posts = [p for p in posts if p.author == nickname]
+
+    user = await get_user_by_nickname(nickname)
+
+    bio = user.bio if user and user.bio else "Создатель NOVI ✦"
+    avatar = user.avatar if user and user.avatar else "🙂"
 
     return templates.TemplateResponse(
         "profile.html",
@@ -198,8 +200,8 @@ async def edit_profile(request: Request):
         return RedirectResponse("/", status_code=302)
 
     user = await get_user(nickname)
-    bio = user[3] if user and len(user) > 3 else ""
-    avatar = user[4] if user and len(user) > 4 else "😊"
+    bio = user.bio if user and user.bio else ""
+    avatar = user.avatar if user and user.avatar  else "😊"
 
     return templates.TemplateResponse(
         "edit_profile.html",
@@ -215,12 +217,13 @@ async def edit_profile_processing(
     current_avatar: Optional[str] = Form(None),
 ):
     nickname = request.session.get("nickname")
+    user = await get_user_by_nickname(nickname)
 
     if not nickname:
         return RedirectResponse("/", status_code=302)
 
     if avatar is None or avatar.strip() == "":
         avatar = current_avatar or "😊"
-
-    await update_user(nickname, bio, avatar)
+    if user:
+        await update_user(user.id, bio, avatar)
     return RedirectResponse("/profile", status_code=302)

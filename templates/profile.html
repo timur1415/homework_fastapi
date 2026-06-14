@@ -177,7 +177,11 @@
         padding: 12px 24px;
         border-radius: 999px;
         border: 1px solid rgba(89, 214, 201, 0.24);
-        background: linear-gradient(135deg, rgba(89, 214, 201, 0.18), rgba(255, 255, 255, 0.05));
+        background: linear-gradient(
+          135deg,
+          rgba(89, 214, 201, 0.18),
+          rgba(255, 255, 255, 0.05)
+        );
         color: #e7fdf9;
         font-weight: 700;
         text-decoration: none;
@@ -403,19 +407,21 @@
 
       <div class="post">
         <div class="post-header">
-          <div class="post-avatar">{% if p|length > 4 and p[4] %}{{ p[4] }}{% else %}{{ nickname[0]|upper }}{% endif %}</div>
-
+          <div class="post-avatar">{{ nickname[0]|upper }}</div>
           <div class="post-user">{{ nickname }}</div>
         </div>
 
-        {% if p|length > 5 and p[5] %}
-        <div style="padding: 0 18px 12px;">
-          <img src="{{ p[5] }}" alt="post image" style="max-width:100%; border-radius:12px; display:block;" />
+        {% if p.image %}
+        <div style="padding: 0 18px 12px">
+          <img
+            src="{{ p.image }}"
+            alt="post image"
+            style="max-width: 100%; border-radius: 12px; display: block"
+          />
         </div>
         {% endif %}
 
-        <div class="post-text">{{ p[2] }}</div>
-      </div>
+        <div class="post-text">{{ p.content }}</div>
 
       {% endfor %} {% else %}
 
